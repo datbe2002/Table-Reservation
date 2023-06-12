@@ -1,21 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import "./navigation.scss";
 import { Link } from "react-router-dom";
 
-const Navigation = () => {
+const element = [
+  {
+    path: "/table-list",
+    name: "Browse",
+  },
+  {
+    path: "/my-history",
+    name: "History",
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+  },
+  {
+    path: "/login",
+    name: "Logout",
+  },
+];
+
+const Navigation = (props) => {
+  const [active, setActive] = useState("");
+  const { userID } = props;
+
   const handleLogout = () => {
     console.log("Logout Click");
   };
 
   return (
     <div className="navigation">
-      <Link to="/table-list">Browse</Link>
-      <Link to="/my-history">History</Link>
-      <Link to="/profile">Profile</Link>
-      <button onClick={handleLogout}>Logout</button>
-      {/*       
-      <button>Login</button>
-      <button>Register</button> */}
+      {element.map((item, index) => (
+        <Link
+          key={index}
+          to={item.name === "Profile" ? item.path + `/${userID}` : item.path}
+          className={active === item.name ? "active" : ""}
+          onClick={() => {
+            item.name === "Logout" ? handleLogout() : setActive(item.name);
+          }}
+        >
+          {item.name}
+        </Link>
+      ))}
     </div>
   );
 };
