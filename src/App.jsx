@@ -1,13 +1,12 @@
-import './assets/css/App.css'
-import Router from './router/router'
+import "./assets/css/App.scss";
+import Router from "./router/router";
 
 function App() {
-
   return (
-    <div className='App'>
+    <div className="App">
       <Router />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -5,6 +5,7 @@ import LoginPage from "../pages/auth/login/LoginPage";
 import RegisterPage from "../pages/auth/register/RegisterPage";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../pages/main/dashboard/Dashboard";
+import TableList from "../pages/main/tablelist/TableList";
 
 export default function Router() {
   const element = useRoutes([
@@ -24,6 +25,11 @@ export default function Router() {
         {
           path: "/dashboard",
           element: <Dashboard />,
+        },
+        // view list
+        {
+          path: "/table-list",
+          element: <TableList />,
         },
         // {
         //   path: "/profile",
