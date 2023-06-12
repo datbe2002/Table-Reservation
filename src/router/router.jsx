@@ -31,10 +31,11 @@ export default function Router() {
           path: "/table-list",
           element: <TableList />,
         },
-        // {
-        //   path: "/profile",
-        //   element: <ProfileSetting />,
-        // },
+        {
+          path: "/profile/:id",
+          element: <Dashboard />,
+          // element: <ProfileSetting />,
+        },
       ],
     },
   ]);
