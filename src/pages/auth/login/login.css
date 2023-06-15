@@ -1,0 +1,102 @@
+/* @import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400<500,600,700,800,900&display=swap"); */
+.backgroundLogin {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("./assetsLogin/backgroundRestaurant.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .backgroundLogin::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(8px);
+  }
+
+.login {
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #1c2630;
+  flex-wrap: wrap;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10%;
+}
+.login form {
+  background: #29313c;
+  padding: 60px 80px 60px;
+  text-align: center;
+  flex-direction: column;
+  border-radius: 10px;
+}
+.login form h2 {
+  color: #fff;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 1.25em;
+  letter-spacing: 0.1em;
+  margin-bottom: 50px;
+}
+.inputBox {
+  position: relative;
+  width: 300px;
+  margin-bottom: 40px;
+}
+.inputBox input {
+  position: relative;
+  width: 100%;
+  padding: 10px 0;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #999;
+  outline: none;
+  color: #fff;
+  font-size: 1em;
+  letter-spacing: 0.15em;
+}
+
+.inputBox input:focus,
+.inputBox input:valid {
+  border-bottom: 2px solid #0ab3ff;
+}
+.inputBox input[type="submit"] {
+  background: #0ab3ff;
+  border: none;
+  padding: 15px;
+  border-radius: 50px;
+  color: #1c2630;
+  font-weight: 600;
+  font-size: 1.15em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.inputBox input[type="submit"]:hover {
+  letter-spacing: 0.35em;
+}
+form p {
+  color: #fff;
+  text-transform: uppercase;
+}
+form p {
+  color: #fff;
+  text-transform: uppercase;
+}
+form p a {
+  color: #0ab3ff;
+  font-weight: 500;
+  text-decoration: none;
+}
