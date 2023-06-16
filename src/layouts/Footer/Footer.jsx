@@ -19,7 +19,7 @@ const Footer = () => {
           </p>
         </div>
       </div>
-      <div>@copyright by restaurant name</div>
+      {/* <div>@copyright by restaurant name</div> */}
     </>
   );
 };

@@ -6,6 +6,7 @@ import RegisterPage from "../pages/auth/register/RegisterPage";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../pages/main/dashboard/Dashboard";
 import TableList from "../pages/main/tablelist/TableList";
+import Profile from "../pages/main/profile/Profile"
 
 export default function Router() {
   const element = useRoutes([
@@ -33,8 +34,8 @@ export default function Router() {
         },
         {
           path: "/profile/:id",
-          element: <Dashboard />,
-          // element: <ProfileSetting />,
+          // element: <Dashboard />,
+          element: <Profile />,
         },
       ],
     },
