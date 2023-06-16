@@ -1,0 +1,28 @@
+.user-profile {
+    background-color: #000000;
+    padding: 30px;
+    border-radius: 5px;
+    height: 400px;
+  }
+  
+  .profile-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .field {
+    display: flex;
+    align-items: center;
+  }
+  
+  label {
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  
+  span {
+    font-size: 14px;
+  }
+  
