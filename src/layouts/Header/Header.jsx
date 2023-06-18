@@ -1,9 +1,17 @@
-import React from 'react'
+import React from "react";
+import Navigation from "../../components/navigation/Navigation";
 
+const user = { id: 2, role: "user", name: "aaa" };
 const Header = () => {
-    return (
-        <div>Header</div>
-    )
-}
+  return (
+    <div className="header">
+      <div className="logo">
+        <img></img>
+      </div>
 
-export default Header
+      <Navigation userID={user.id} />
+    </div>
+  );
+};
+
+export default Header;

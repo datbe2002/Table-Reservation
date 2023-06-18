@@ -1,0 +1,17 @@
+@import "../../assets/css/variable.scss";
+
+.navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 20px 0 10px;
+  a {
+    padding: 2px 5px;
+    text-decoration: none;
+    color: #ffffff;
+  }
+
+  .active {
+    border: solid white 1px;
+  }
+}
