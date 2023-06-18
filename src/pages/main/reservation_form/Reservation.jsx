@@ -1,6 +1,6 @@
 import React from "react";
 import "./reservation.scss";
-import { Button, Col, DatePicker, Form, Input, Row, Select } from "antd";
+import { DatePicker, Form, Input, Row, Select } from "antd";
 
 const slotList = [2, 4, 6];
 const positionList = [
@@ -42,17 +42,7 @@ const Reservation = () => {
           label="Number of seat:"
           rules={[{ required: true }]}
         >
-          <Select
-            placeholder=""
-            // onChange={onGenderChange}
-            allowClear
-          >
-            {slotList?.map((item, index) => (
-              <Option key={index} value={item}>
-                {item}
-              </Option>
-            ))}
-          </Select>
+          <Input type="Number" min={1}></Input>
         </Form.Item>
 
         <Form.Item label="Date" name="date" rules={[{ required: true }]}>
@@ -92,7 +82,7 @@ const Reservation = () => {
         </Form.Item>
 
         <Form.Item label="Note:">
-          <TextArea rows={4} onResize={false} />
+          <TextArea rows={4} />
         </Form.Item>
 
         <Row justify="center">
