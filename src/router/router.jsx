@@ -5,7 +5,7 @@ import LoginPage from "../pages/auth/login/LoginPage";
 import RegisterPage from "../pages/auth/register/RegisterPage";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../pages/main/dashboard/Dashboard";
-
+import Home from "../pages/landingPage/Home";
 export default function Router() {
   const element = useRoutes([
     {
@@ -16,7 +16,10 @@ export default function Router() {
       path: "/register",
       element: <RegisterPage />,
     },
-
+    {
+      path: "/",
+      element: <Home />
+    },
     {
       element: <PrivateRoute />,
       children: [
