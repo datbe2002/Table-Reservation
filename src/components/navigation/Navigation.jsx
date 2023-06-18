@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 
 const element = [
   {
-    path: "/table-list",
-    name: "Browse",
+    path: "/reservation",
+    name: "Reservation",
   },
   {
     path: "/my-history",

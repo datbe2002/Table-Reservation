@@ -1,0 +1,65 @@
+@import "../../../assets/css/variable.scss";
+
+.reservation__container {
+  height: 100%;
+  width: 100%;
+  min-width: 500px;
+  .reservation__top {
+    background-image: url(../../../assets/images/background1234.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: 50% 90%;
+    height: 400px;
+    position: relative;
+    width: inherit;
+    .reservation__top__text {
+      background: #252323cc;
+      padding: 0 100px;
+      position: absolute;
+      bottom: 0;
+      font-size: 80px;
+      font-weight: 700;
+      font-style: italic;
+    }
+  }
+
+  .reservation__form {
+    margin: 0 auto;
+    background: #fffffff2;
+    width: 70%;
+    height: auto;
+    padding: 20px 0 20px 0;
+    border-radius: 10px;
+
+    textarea {
+      resize: none;
+    }
+
+    label {
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 500;
+      padding: 0 20px;
+    }
+
+    .custom__btn {
+      width: 200px;
+      height: 50px;
+      padding: 10px 20px;
+      border: 2px solid #000000;
+      //
+      color: #000000;
+      font-size: 20px;
+      font-weight: 500;
+      //
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        color: aliceblue;
+        background: black;
+      }
+    }
+  }
+}
