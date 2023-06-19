@@ -41,84 +41,88 @@ const UserProfile = () => {
 
   return (
     <div className="user-profile">
-      <h2>User Profile</h2>
+      <h2>{name}'s Profile</h2>
+      <div className="profile-image">
+        <img src={profileImage} alt="Profile" />
+      </div>
       <div className="profile-info">
-        <div className="profile-image">
-          <img src={profileImage} alt="Profile" />
-        </div>
-        <div className="field">
-          <label>Name:</label>
-          {isEditing ? (
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          ) : (
-            <span>{name}</span>
-          )}
-        </div>
-        <div className="field">
-          <label>Email:</label>
-          {isEditing ? (
-            <input
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          ) : (
-            <span>{email}</span>
-          )}
-        </div>
-        <div className="field">
-          <label>Password:</label>
-          <div className="password-field">
+        <div>
+          <div className="field">
+            <label className="label">Name:</label>
             {isEditing ? (
               <input
-                type={showPassword ? 'text' : 'password'}
-                value={editedPassword !== '' ? editedPassword : password}
-                onChange={handlePasswordChange}
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             ) : (
-              <span>**********</span>
+              <span className="value">{name}</span>
             )}
-            {isEditing && (
-              <img
-                className="eye-icon"
-                src={eyeIcon}
-                alt="Toggle Password Visibility"
-                onClick={handleTogglePasswordVisibility}
+          </div>
+          <div className="field">
+            <label className="label">Email:</label>
+            {isEditing ? (
+              <input
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
+            ) : (
+              <span className="value">{email}</span>
             )}
           </div>
         </div>
-        <div className="field">
-          <label>Phone:</label>
-          {isEditing ? (
-            <input
-              type="text"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
-          ) : (
-            <span>{phone}</span>
-          )}
-        </div>
-        {isEditing ? (
-          <div className="button-group">
-            <button className="save-button" onClick={handleSave}>
-              Save
-            </button>
-            <button className="cancel-button" onClick={handleCancel}>
-              Cancel
-            </button>
+        <div>
+          <div className="field">
+            <label className="label">Password:</label>
+            <div className="password-field">
+              {isEditing ? (
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={editedPassword !== '' ? editedPassword : password}
+                  onChange={handlePasswordChange}
+                />
+              ) : (
+                <span className="value">**********</span>
+              )}
+              {isEditing && (
+                <img
+                  className="eye-icon"
+                  src={eyeIcon}
+                  alt="Toggle Password Visibility"
+                  onClick={handleTogglePasswordVisibility}
+                />
+              )}
+            </div>
           </div>
-        ) : (
-          <button className="edit-button" onClick={handleEdit}>
-            Edit
-          </button>
-        )}
+          <div className="field">
+            <label className="label">Phone:</label>
+            {isEditing ? (
+              <input
+                type="text"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            ) : (
+              <span className="value">{phone}</span>
+            )}
+          </div>
+        </div>
       </div>
+      {isEditing ? (
+        <div className="button-group">
+          <button className="save-button" onClick={handleSave}>
+            Save
+          </button>
+          <button className="cancel-button" onClick={handleCancel}>
+            Cancel
+          </button>
+        </div>
+      ) : (
+        <button className="edit-button" onClick={handleEdit}>
+          Edit
+        </button>
+      )}
     </div>
   );
 };
