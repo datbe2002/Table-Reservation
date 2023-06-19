@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import profileImage from './profileImage.png'; // Import the profile image file
-import eyeIcon from '../profile/eye-slash-solid.svg'; // Import the eye icon file
+import profileImage from './profileImage.png';
+import eyeIcon from '../profile/eye-slash-solid.svg';
 
-import './Profile.css'; // Import the custom CSS file for styling
+import './Profile.css';
 
 const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -12,7 +12,6 @@ const UserProfile = () => {
   const [password, setPassword] = useState('**********');
   const [showPassword, setShowPassword] = useState(false);
   const [editedPassword, setEditedPassword] = useState('');
-  const [address, setAddress] = useState('');
 
   useEffect(() => {
     fetchUserData();
@@ -20,30 +19,56 @@ const UserProfile = () => {
 
   const fetchUserData = async () => {
     try {
-      const response = await fetch('https://63692ab028cd16bba716cff0.mockapi.io/news/1');
+      const response = await fetch('https://63692ab028cd16bba716cff0.mockapi.io/news');
       const userData = await response.json();
-
-      setName(userData.name);
-      setEmail(userData.email);
-      setPhone(userData.phone);
-      setAddress(userData.address);
+      const currentUser = userData[0]; 
+      setName(currentUser.name);
+      setEmail(currentUser.email);
+      setPhone(currentUser.phone);
     } catch (error) {
       console.error('Error fetching user data:', error);
     }
   };
+  const updateUserProfile = async () => {
+    try {
+      const response = await fetch(`https://63692ab028cd16bba716cff0.mockapi.io/news/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+        }),
+      });
+  
+      if (response.ok) {
+        console.log('User profile updated successfully!');
+        fetchUserData(); 
+      } else {
+        console.error('Failed to update user profile');
+      }
+    } catch (error) {
+      console.error('Error updating user profile:', error);
+    }
+  };
+  
+  
 
   const handleEdit = () => {
     setIsEditing(true);
-    setEditedPassword(password); 
+    setEditedPassword(password);
   };
-
   const handleSave = () => {
     setIsEditing(false);
     if (editedPassword !== '') {
-      setPassword(editedPassword); 
+      setPassword(editedPassword);
     }
-    setEditedPassword(''); 
+    setEditedPassword('');
+    updateUserProfile();
   };
+  
 
   const handleCancel = () => {
     setIsEditing(false);
@@ -51,13 +76,14 @@ const UserProfile = () => {
   };
 
   const handlePasswordChange = (e) => {
-    setEditedPassword(e.target.value); 
+    setEditedPassword(e.target.value);
   };
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
+  
   return (
     <div className="user-profile">
       <h2>{name}'s Profile</h2>
@@ -69,11 +95,7 @@ const UserProfile = () => {
           <div className="field">
             <label className="label">Name:</label>
             {isEditing ? (
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
             ) : (
               <span className="value">{name}</span>
             )}
@@ -81,25 +103,9 @@ const UserProfile = () => {
           <div className="field">
             <label className="label">Email:</label>
             {isEditing ? (
-              <input
-                type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+              <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
             ) : (
               <span className="value">{email}</span>
-            )}
-          </div>
-          <div className="field">
-            <label className="label">Address:</label>
-            {isEditing ? (
-              <input
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-              />
-            ) : (
-              <span className="value">{address}</span>
             )}
           </div>
         </div>
@@ -129,11 +135,7 @@ const UserProfile = () => {
           <div className="field">
             <label className="label">Phone:</label>
             {isEditing ? (
-              <input
-                type="text"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-              />
+              <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
             ) : (
               <span className="value">{phone}</span>
             )}
