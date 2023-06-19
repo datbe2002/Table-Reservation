@@ -7,8 +7,8 @@ import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../pages/main/dashboard/Dashboard";
 import Home from "../pages/landingPage/Home";
 import TableList from "../pages/main/tablelist/TableList";
-import Profile from "../pages/main/profile/Profile"
-
+import Profile from "../pages/main/profile/Profile";
+import LoginAdmin from "../pages/auth/LoginForManager/loginManager";
 export default function Router() {
   const element = useRoutes([
     {
@@ -20,8 +20,8 @@ export default function Router() {
       element: <RegisterPage />,
     },
     {
-      path: "/",
-      element: <Home />
+      path: "/admin/login",
+      element: <LoginAdmin />,
     },
     {
       element: <PrivateRoute />,
@@ -40,6 +40,10 @@ export default function Router() {
           path: "/profile/:id",
           // element: <Dashboard />,
           element: <Profile />,
+        },
+        {
+          path: "/",
+          element: <Home />,
         },
       ],
     },
