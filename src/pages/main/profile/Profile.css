@@ -1,28 +1,81 @@
 .user-profile {
-    background-color: #000000;
-    padding: 30px;
-    border-radius: 5px;
-    height: 400px;
-  }
-  
-  .profile-info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 10px;
-  }
-  
-  .field {
-    display: flex;
-    align-items: center;
-  }
-  
-  label {
-    font-weight: bold;
-    margin-right: 5px;
-  }
-  
-  span {
-    font-size: 14px;
-  }
-  
+  width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.user-profile h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333333;
+}
+
+.profile-info {
+  margin-top: 20px;
+}
+
+.profile-image {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.profile-image img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: bold;
+  margin-right: 10px;
+  color: #555555;
+}
+
+span {
+  font-weight: normal;
+  color: #777777;
+}
+
+.edit-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.edit-button:hover {
+  background-color: #45a049;
+}
+
+.save-button,
+.cancel-button {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  margin-right: 10px;
+}
+
+.save-button:hover,
+.cancel-button:hover {
+  background-color: #1e87db;
+}
