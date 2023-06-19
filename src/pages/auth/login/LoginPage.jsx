@@ -6,7 +6,7 @@ const LoginPage = () => {
   return (
     <div className="backgroundLogin">
 
-    <div className="login">
+      <div className="login">
         <form>
           <h2>Login</h2>
           <div className="inputBox">
@@ -22,7 +22,7 @@ const LoginPage = () => {
             Create new accout <Link to="/register">Register</Link>
           </p>
         </form>
-        
+
       </div>
     </div>
   );
