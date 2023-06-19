@@ -1,0 +1,78 @@
+.homepage {
+  width: 100%;
+  height: 200vh;
+  .home {
+    display: block;
+    width: 100%;
+    height: 90vh;
+    position: relative;
+
+    .nextButton {
+        border: none;
+        position: absolute;
+        top: 90%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: transparent;
+        color: black;
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        background-color: rgba(255, 255, 255, 0.2);
+
+      }
+      
+      @font-face {
+        font-family: 'Comforter';
+        src: url('./assetsLaindingPage/Comforter-Regular.ttf') format('truetype');
+        /* Các định dạng font khác như woff2, woff cũng có thể được sử dụng */
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      .title{
+        position: absolute;
+        font-family: 'Comforter', sans-serif;
+        font-size: 100px;
+        z-index: 1;
+        transform: translate(-50%, -50%);
+        top: 25%;
+        left: 50%;
+        color: whitesmoke;
+      }
+
+    .backgroundRestaurant {
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+
+    .backgroundRestaurant.transition {
+        opacity: 0;
+      }
+
+    .blog {
+        text-align: center;
+        color: #F5D111;
+    }
+
+    .content-blog {
+        text-align: center;
+        width: 150vh;
+        margin: 0 auto;
+        font-size: 20px;
+      }
+  }
+}
