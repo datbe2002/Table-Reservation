@@ -15,17 +15,14 @@ const UserProfile = () => {
   const [address, setAddress] = useState('');
 
   useEffect(() => {
-    // Fetch user attributes from the API and populate the fields
     fetchUserData();
   }, []);
 
   const fetchUserData = async () => {
     try {
-      // Make an API request to fetch user data
       const response = await fetch('https://63692ab028cd16bba716cff0.mockapi.io/news/1');
       const userData = await response.json();
 
-      // Populate the user attributes
       setName(userData.name);
       setEmail(userData.email);
       setPhone(userData.phone);
@@ -37,24 +34,24 @@ const UserProfile = () => {
 
   const handleEdit = () => {
     setIsEditing(true);
-    setEditedPassword(password); // Save the current password in case it gets modified
+    setEditedPassword(password); 
   };
 
   const handleSave = () => {
     setIsEditing(false);
     if (editedPassword !== '') {
-      setPassword(editedPassword); // Update the password with the edited value
+      setPassword(editedPassword); 
     }
-    setEditedPassword(''); // Reset the edited password value
+    setEditedPassword(''); 
   };
 
   const handleCancel = () => {
     setIsEditing(false);
-    setEditedPassword(''); // Reset the edited password value
+    setEditedPassword('');
   };
 
   const handlePasswordChange = (e) => {
-    setEditedPassword(e.target.value); // Update the edited password value
+    setEditedPassword(e.target.value); 
   };
 
   const handleTogglePasswordVisibility = () => {
