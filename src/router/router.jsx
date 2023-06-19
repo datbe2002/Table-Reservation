@@ -5,7 +5,10 @@ import LoginPage from "../pages/auth/login/LoginPage";
 import RegisterPage from "../pages/auth/register/RegisterPage";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../pages/main/dashboard/Dashboard";
-import TableList from "../pages/main/reservation_form/Reservation";
+import Home from "../pages/landingPage/Home";
+// import TableList from "../pages/main/tablelist/TableList";
+import LoginAdmin from "../pages/auth/LoginForManager/loginManager";
+// import TableList from "../pages/main/reservation_form/Reservation";
 import Profile from "../pages/main/profile/Profile";
 import Reservation from "../pages/main/reservation_form/Reservation";
 
@@ -19,7 +22,10 @@ export default function Router() {
       path: "/register",
       element: <RegisterPage />,
     },
-
+    {
+      path: "/admin/login",
+      element: <LoginAdmin />,
+    },
     {
       element: <PrivateRoute />,
       children: [
@@ -37,6 +43,10 @@ export default function Router() {
           path: "/profile/:id",
           // element: <Dashboard />,
           element: <Profile />,
+        },
+        {
+          path: "/",
+          element: <Home />,
         },
       ],
     },
