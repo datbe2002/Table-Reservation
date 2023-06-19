@@ -6,9 +6,12 @@ import RegisterPage from "../pages/auth/register/RegisterPage";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../pages/main/dashboard/Dashboard";
 import Home from "../pages/landingPage/Home";
-import TableList from "../pages/main/tablelist/TableList";
 import Profile from "../pages/main/profile/Profile";
 import LoginAdmin from "../pages/auth/LoginForManager/loginManager";
+import TableList from "../pages/main/reservation_form/Reservation";
+import Profile from "../pages/main/profile/Profile";
+import Reservation from "../pages/main/reservation_form/Reservation";
+
 export default function Router() {
   const element = useRoutes([
     {
@@ -33,8 +36,8 @@ export default function Router() {
         },
         // view list
         {
-          path: "/table-list",
-          element: <TableList />,
+          path: "/reservation",
+          element: <Reservation />,
         },
         {
           path: "/profile/:id",
