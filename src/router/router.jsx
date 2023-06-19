@@ -6,9 +6,9 @@ import RegisterPage from "../pages/auth/register/RegisterPage";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../pages/main/dashboard/Dashboard";
 import Home from "../pages/landingPage/Home";
-import Profile from "../pages/main/profile/Profile";
+// import TableList from "../pages/main/tablelist/TableList";
 import LoginAdmin from "../pages/auth/LoginForManager/loginManager";
-import TableList from "../pages/main/reservation_form/Reservation";
+// import TableList from "../pages/main/reservation_form/Reservation";
 import Profile from "../pages/main/profile/Profile";
 import Reservation from "../pages/main/reservation_form/Reservation";
 
