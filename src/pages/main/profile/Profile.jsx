@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import profileImage from './profileImage.png'; // Import the profile image file
 import eyeIcon from '../profile/eye-slash-solid.svg'; // Import the eye icon file
 
@@ -6,12 +6,34 @@ import './Profile.css'; // Import the custom CSS file for styling
 
 const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const [name, setName] = useState('Huy depzai');
-  const [email, setEmail] = useState('huydepzai@emdeplem.com');
-  const [phone, setPhone] = useState('031231312312');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('**********');
   const [showPassword, setShowPassword] = useState(false);
   const [editedPassword, setEditedPassword] = useState('');
+  const [address, setAddress] = useState('');
+
+  useEffect(() => {
+    // Fetch user attributes from the API and populate the fields
+    fetchUserData();
+  }, []);
+
+  const fetchUserData = async () => {
+    try {
+      // Make an API request to fetch user data
+      const response = await fetch('https://63692ab028cd16bba716cff0.mockapi.io/news/1');
+      const userData = await response.json();
+
+      // Populate the user attributes
+      setName(userData.name);
+      setEmail(userData.email);
+      setPhone(userData.phone);
+      setAddress(userData.address);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -69,6 +91,18 @@ const UserProfile = () => {
               />
             ) : (
               <span className="value">{email}</span>
+            )}
+          </div>
+          <div className="field">
+            <label className="label">Address:</label>
+            {isEditing ? (
+              <input
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+            ) : (
+              <span className="value">{address}</span>
             )}
           </div>
         </div>
