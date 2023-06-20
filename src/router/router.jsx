@@ -11,6 +11,7 @@ import LoginAdmin from "../pages/auth/LoginForManager/loginManager";
 // import TableList from "../pages/main/reservation_form/Reservation";
 import Profile from "../pages/main/profile/Profile";
 import Reservation from "../pages/main/reservation_form/Reservation";
+import Payment from "../pages/main/payment/payment";
 
 export default function Router() {
   const element = useRoutes([
@@ -38,6 +39,10 @@ export default function Router() {
         {
           path: "/reservation",
           element: <Reservation />,
+        },
+        {
+          path: "/payment",
+          element: <Payment />,
         },
         {
           path: "/profile/:id",
