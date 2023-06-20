@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./navigation.scss";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/slice/authSlice";
 
 const element = [
   {
@@ -25,7 +27,10 @@ const Navigation = (props) => {
   const [active, setActive] = useState("");
   const { userID } = props;
 
+  const dispatch = useDispatch();
+
   const handleLogout = () => {
+      dispatch(logout());
     console.log("Logout Click");
   };
 
