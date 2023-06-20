@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./navigation.scss";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logout } from "../../redux/slice/authSlice";
+import { logout, logoutUser } from "../../redux/slice/authSlice";
 
 const element = [
   {
@@ -30,7 +30,7 @@ const Navigation = (props) => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-      dispatch(logout());
+    dispatch(logoutUser());
     console.log("Logout Click");
   };
 
