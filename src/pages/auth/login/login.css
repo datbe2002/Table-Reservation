@@ -100,3 +100,6 @@ form p a {
   font-weight: 500;
   text-decoration: none;
 }
+.errorMessage {
+  color: red;
+}

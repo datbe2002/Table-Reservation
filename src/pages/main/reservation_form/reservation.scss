@@ -1,10 +1,10 @@
 @import "../../../assets/css/variable.scss";
 
-.reservation__container {
+.reservation-container {
   height: 100%;
   width: 100%;
   min-width: 500px;
-  .reservation__top {
+  .reservation-top {
     background-image: url(../../../assets/images/background1234.jpg);
     background-repeat: no-repeat;
     background-size: 100%;
@@ -12,7 +12,7 @@
     height: 400px;
     position: relative;
     width: inherit;
-    .reservation__top__text {
+    .reservation-top-text {
       background: #252323cc;
       padding: 0 100px;
       position: absolute;
@@ -23,7 +23,7 @@
     }
   }
 
-  .reservation__form {
+  .reservation-form {
     margin: 20px auto;
     background: #fffffff2;
     width: 45%;
@@ -43,7 +43,7 @@
       padding: 0 20px;
     }
 
-    .custom__btn {
+    .custom-btn {
       width: 200px;
       height: 50px;
       padding: 10px 20px;
@@ -61,6 +61,41 @@
         color: aliceblue;
         background: black;
       }
+    }
+  }
+
+  .modal-item {
+    padding: 10px 20px;
+  }
+}
+
+.reservation-detail-container {
+  width: 70%;
+  margin: 0 auto;
+  background-color: white;
+  color: #000000;
+  padding: 10px 20px 30px 20px;
+  border-radius: 10px;
+  border: solid black 1px;
+  display: flex;
+  flex-direction: column;
+
+  .detail-title {
+    font-size: 35px;
+    font-weight: 700;
+    font-style: italic;
+  }
+
+  .detail-item {
+    display: flex;
+    flex-direction: row;
+    padding: 0 10%;
+    label {
+      flex: 2;
+      font-size: 18px;
+    }
+    .detail-content {
+      flex: 4;
     }
   }
 }
