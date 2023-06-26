@@ -12,6 +12,9 @@ import LoginAdmin from "../pages/auth/LoginForManager/loginManager";
 import Profile from "../pages/main/profile/Profile";
 import Reservation from "../pages/main/reservation_form/Reservation";
 import Payment from "../pages/main/payment/payment";
+import ForgotPassword from "../pages/auth/login/ForgotPassword";
+import PrivateRouteManager from "./privateRouteManager";
+import ManagerPage from "../pages/admin/manager";
 
 export default function Router() {
   const element = useRoutes([
@@ -24,8 +27,21 @@ export default function Router() {
       element: <RegisterPage />,
     },
     {
+      path: "/forgotPassword",
+      element: <ForgotPassword />,
+    },
+    {
       path: "/admin/login",
       element: <LoginAdmin />,
+    },
+    {
+      element: <PrivateRouteManager />,
+      children: [
+        {
+          path: "/pageManager",
+          element: <ManagerPage />,
+        },
+      ],
     },
     {
       element: <PrivateRoute />,
