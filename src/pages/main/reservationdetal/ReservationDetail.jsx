@@ -11,10 +11,10 @@ import { DownloadOutlined } from "@ant-design/icons";
 
 const path = "http://localhost:5173/reservation";
 
-const Payment = () => {
+const ReservationDetail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const reservationObj = useSelector(reservationSelector);
+  const reservationObj = useSelector(fullResInfoSelector);
   // console.log(reservationObj);
 
   const handleDone = () => {
@@ -123,4 +123,4 @@ const Payment = () => {
   );
 };
 
-export default Payment;
+export default ReservationDetail;
