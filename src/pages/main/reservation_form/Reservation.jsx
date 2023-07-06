@@ -12,23 +12,27 @@ import {
   Select,
   Space,
   Tabs,
+  TimePicker,
 } from "antd";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  fullResInfoSelector,
   reservationSelector,
-  reservationTablePositionSelector,
   reservationTimeSelector,
 } from "../../../redux/selector";
-import { setReservation } from "../../../redux/slice/reservationSlice";
+import {
+  makeReservation,
+  setReservation,
+} from "../../../redux/slice/reservationSlice";
 import { useNavigate } from "react-router-dom";
 
 const slotList = [2, 4, 6];
 const positionList = [
-  { value: 1, position: "Out door" },
-  { value: 2, position: "Inside" },
-  { value: 3, position: "Upstair" },
+  { value: "Outdoor", position: "Out door" },
+  { value: "Inside", position: "Inside" },
+  { value: "Upstair", position: "Upstair" },
 ];
 const timeList = [
   { value: 1, time: "00.00 AM" },
@@ -40,12 +44,15 @@ const timeList = [
 
 const Reservation = () => {
   const { TextArea } = Input;
+  const dateFormat = "DD/MM/YYYY";
+  const timeformat = "HH:mm";
   // const dateFomat = { year: "numeric", month: "long", day: "numeric" };
 
   // redux
   const dispatch = useDispatch();
   const reservationObj = useSelector(reservationSelector);
-  // const positionList = useSelector(reservationTablePositionSelector);
+  const user = useSelector((state) => state.auth.userDTO);
+  const reservationId = useSelector(fullResInfoSelector).reservation._id;
   // const timeList = useSelector(reservationTimeSelector);
 
   //
@@ -62,18 +69,23 @@ const Reservation = () => {
 
   // handler
   const handleSubmit = (event) => {
-    navigate("../payment");
+    dispatch(
+      makeReservation({ reservation: reservationObj, userID: user._id })
+    );
+    navigate("../reservation/" + reservationId);
   };
 
   const handleShowModal = (event) => {
     // console.log(new Date(event.date).toJSON());
     const obj = {
-      noSlot: event.noSlot,
-      date: new Date(event.date).toJSON(),
-      time: event.time,
+      noSlot: Number(event.noSlot),
+      date: dayjs(event.date).format(dateFormat),
+      time: dayjs(event.time).format(timeformat),
       position: event.position,
     };
+
     dispatch(setReservation(obj));
+
     setOpen(true);
   };
 
@@ -82,24 +94,24 @@ const Reservation = () => {
   };
 
   // component
-  // const paymentMethod = [
-  //   {
-  //     key: "1",
-  //     label: `Banking`,
-  //     children: `Content of Tab Pane 1`,
-  //   },
-  //   {
-  //     key: "2",
-  //     label: `QR Pay`,
-  //     children: (
-  //       <>
-  //         <div className="qr-payment">
-  //           <QRCode value={"-"} />
-  //         </div>
-  //       </>
-  //     ),
-  //   },
-  // ];
+  const paymentMethod = [
+    {
+      key: "1",
+      label: `Banking`,
+      children: `Content of Tab Pane 1`,
+    },
+    {
+      key: "2",
+      label: `QR Pay`,
+      children: (
+        <>
+          <div className="qr-payment">
+            <QRCode value={"-"} />
+          </div>
+        </>
+      ),
+    },
+  ];
 
   return (
     <div className="reservation-container">
@@ -124,21 +136,11 @@ const Reservation = () => {
         </Form.Item>
 
         <Form.Item label="Date" name="date" rules={[{ required: true }]}>
-          <DatePicker disabledDate={disabledDate} />
+          <DatePicker disabledDate={disabledDate} format={dateFormat} />
         </Form.Item>
 
         <Form.Item name="time" label="Time:" rules={[{ required: true }]}>
-          <Select
-            placeholder=""
-            // onChange={onGenderChange}
-            allowClear
-          >
-            {timeList?.map((item, index) => (
-              <Select.Option key={index} value={item.value}>
-                {item.time}
-              </Select.Option>
-            ))}
-          </Select>
+          <TimePicker format={timeformat} />
         </Form.Item>
 
         <Form.Item
@@ -179,11 +181,12 @@ const Reservation = () => {
         centered
         width={800}
         footer={[
+          <Tabs defaultActiveKey="1" items={paymentMethod} />,
           <Button key="back" onClick={handleCancel}>
             Cancel
           </Button>,
           <Button key="submit" type="primary" onClick={handleSubmit}>
-            Proceed to payment
+            Done
           </Button>,
         ]}
       >
@@ -217,8 +220,7 @@ const Reservation = () => {
           </div>
           <div className="detail-item">
             <div className="detail-content">
-              {" "}
-              <label>position</label>
+              <label>Position:</label>
               {reservationObj.position}
             </div>
           </div>
