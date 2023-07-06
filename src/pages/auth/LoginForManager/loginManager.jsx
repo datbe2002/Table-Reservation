@@ -1,38 +1,24 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./loginManager.scss";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { loginManager } from "../../../redux/slice/authSlice";
 
 function LoginManager() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
+  const [email, setEmailManager] = useState("");
+  const [password, setPasswordManager] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const data = {
+    const loginDataManager = {
       email: email,
       password: password,
     };
-
-    try {
-      const response = await axios.post(
-        "http://localhost:8000/api/manager/login",
-        data
-      );
-      // Xử lý phản hồi thành công ở đây
-      console.log(response.data);
-    } catch (error) {
-      // Xử lý lỗi ở đây
-      console.error(error);
-    }
+    dispatch(loginManager({ loginDataManager, navigate }));
   };
 
   return (
@@ -47,7 +33,7 @@ function LoginManager() {
               required
               placeholder="Username"
               value={email}
-              onChange={handleEmailChange}
+              onChange={(e) => setEmailManager(e.target.value)}
             />
           </div>
           <div>
@@ -57,7 +43,7 @@ function LoginManager() {
               required
               placeholder="Password"
               value={password}
-              onChange={handlePasswordChange}
+              onChange={(e) => setPasswordManager(e.target.value)}
             />
           </div>
           <div className="btnLoginManager">

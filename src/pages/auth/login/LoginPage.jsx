@@ -3,7 +3,8 @@ import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../../redux/slice/authSlice";
 import { useDispatch } from "react-redux";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -12,19 +13,15 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    const handleSubmit = async (e) => {
+      e.preventDefault();
 
-    const loginData = {
-      email: email,
-      password: password,
+      const loginData = {
+        email: email,
+        password: password,
+      };
+        dispatch(login({ loginData, navigate }));
     };
-    try {
-      dispatch(login({ loginData, navigate }));
-    } catch (error) {
-      setError("Invalid email or password");
-    }
-  };
 
   return (
     <div className="backgroundLogin">
@@ -59,6 +56,7 @@ const LoginPage = () => {
           <Link to="/forgotPassword">Forgot password</Link>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 };

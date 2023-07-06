@@ -15,6 +15,7 @@ import Payment from "../pages/main/payment/payment";
 import ForgotPassword from "../pages/auth/login/ForgotPassword";
 import PrivateRouteManager from "./privateRouteManager";
 import ManagerPage from "../pages/admin/manager";
+import ResetPassword from "../pages/auth/login/ResetPassword";
 
 export default function Router() {
   const element = useRoutes([
@@ -29,6 +30,10 @@ export default function Router() {
     {
       path: "/forgotPassword",
       element: <ForgotPassword />,
+    },
+    {
+      path: "/reset-password/:token",
+      element: <ResetPassword />,
     },
     {
       path: "/admin/login",
