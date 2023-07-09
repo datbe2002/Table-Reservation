@@ -16,12 +16,20 @@ export const getTime = createAsyncThunk(
   }
 );
 
-export const getTablePosition = createAsyncThunk(
-  "reservation/getTablePosition",
+export const makeReservation = createAsyncThunk(
+  "reservation/makeReservation",
   async (params, thunkAPI) => {
+    console.log(params);
     try {
+      const reservation = params.reservation;
+      const _id = params.userID;
+      const data = { ...reservation, _id };
+      const response = await axiosCus.post("reservation", JSON.stringify(data));
+      console.log(response);
+      return response.data;
     } catch (err) {
-      // console.log(err);
+      console.log(err);
+      return thunkAPI.rejectWithValue(err.response);
     }
   }
 );
@@ -29,6 +37,7 @@ export const getTablePosition = createAsyncThunk(
 const initialState = {
   reservationDTO: {},
   time: {},
+  fullReservation: {},
   tablePosition: {},
   msg: "",
   token: null,
@@ -46,28 +55,17 @@ export const reservationSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getTime.pending, (state) => {
-        state.time.loading = true;
+
+      .addCase(makeReservation.pending, (state) => {
+        state.loading = true;
       })
-      .addCase(getTime.rejected, (state, action) => {
-        state.time.loading = false;
-        state.time.error = action.error;
+      .addCase(makeReservation.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.err;
       })
-      .addCase(getTime.fulfilled, (state, action) => {
-        state.time.loading = false;
-        //state.time.data = action.payload.data;
-      })
-      //
-      .addCase(getTablePosition.pending, (state) => {
-        state.tablePosition.loading = true;
-      })
-      .addCase(getTablePosition.rejected, (state, action) => {
-        state.tablePosition.loading = false;
-        state.tablePosition.error = action.error;
-      })
-      .addCase(getTablePosition.fulfilled, (state, action) => {
-        state.tablePosition.loading = false;
-        //state.tablePosition.data = action.payload.data
+      .addCase(makeReservation.fulfilled, (state, action) => {
+        state.loading = false;
+        state.fullReservation = action.payload;
       });
   },
 });
