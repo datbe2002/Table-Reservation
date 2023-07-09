@@ -11,7 +11,14 @@ import LoginAdmin from "../pages/auth/LoginForManager/loginManager";
 // import TableList from "../pages/main/reservation_form/Reservation";
 import Profile from "../pages/main/profile/Profile";
 import Reservation from "../pages/main/reservation_form/Reservation";
+import Payment from "../pages/main/payment/payment";
+import ForgotPassword from "../pages/auth/login/ForgotPassword";
+import PrivateRouteManager from "./privateRouteManager";
+import ManagerPage from "../pages/admin/manager";
+import ResetPassword from "../pages/auth/login/ResetPassword";
 import ReservationDetail from "../pages/main/reservationdetal/ReservationDetail";
+import ListReservation from "../pages/main/reservation_list/ListReservation";
+import DetailReservation from "../pages/main/reservation_list/DetailReservation";
 
 export default function Router() {
   const element = useRoutes([
@@ -24,8 +31,33 @@ export default function Router() {
       element: <RegisterPage />,
     },
     {
+      path: "/forgotPassword",
+      element: <ForgotPassword />,
+    },
+    {
+      path: "/reset-password/:token",
+      element: <ResetPassword />,
+    },
+    {
       path: "/admin/login",
       element: <LoginAdmin />,
+    },
+    {
+      path: "/listReservation",
+      element: <ListReservation />,
+    },
+    {
+      path: "/reservation/detail/:_reservationId",
+      element: <DetailReservation />,
+    },
+    {
+      element: <PrivateRouteManager />,
+      children: [
+        {
+          path: "/pageManager",
+          element: <ManagerPage />,
+        },
+      ],
     },
     {
       element: <PrivateRoute />,

@@ -28,7 +28,7 @@ function Home() {
           className={`backgroundRestaurant ${isTransitioning ? "transition" : ""}`}
           style={{ backgroundImage: `url(${currentImage})` }}
         />
-        <p className="title">Welcome to my restaurant</p>
+        <p className="title">Welcome to our restaurant</p>
         <h1 className="blog">Blog</h1>
         <p className="content-blog">
           Welcome to "The Gourmet Explorer" - where we embark on a culinary
