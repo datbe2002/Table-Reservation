@@ -11,7 +11,7 @@ function UpdateManager({ closeModal, setIsManagerUpdated, managerData }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(managerData);
     const data = {
       username,
       password,
@@ -20,10 +20,10 @@ function UpdateManager({ closeModal, setIsManagerUpdated, managerData }) {
       address,
       role: "Manager",
     };
-
+  
     try {
       const response = await axios.put(
-        `http://localhost:8000/api/manager/${managerData.id}`,
+        `http://localhost:8000/api/manager/update/${managerData._id}`,
         data
       );
       console.log("Success:", response.data);
