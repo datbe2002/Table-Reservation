@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
 import { Modal, Button, Table } from "antd";
 import CreateManager from "./CreateManager";
 import UpdateManager from "./updateManager";
+import DeleteManager from "./DeleteManager";
 
 function Manager() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -11,6 +11,8 @@ function Manager() {
   const [selectedManager, setSelectedManager] = useState(null);
   const [managers, setManagers] = useState([]);
   const [isManagerCreated, setIsManagerCreated] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteManagerId, setDeleteManagerId] = useState(null);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -25,9 +27,18 @@ function Manager() {
     setIsUpdateModalOpen(true);
   };
 
+  const handleOpenDeleteModal = (managerId) => {
+    setDeleteManagerId(managerId);
+    setIsDeleteModalOpen(true);
+  };
+
   const handleCloseUpdateModal = () => {
     setSelectedManager(null);
     setIsUpdateModalOpen(false);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setIsDeleteModalOpen(false);
   };
 
   useEffect(() => {
@@ -47,6 +58,10 @@ function Manager() {
 
   const handleUpdate = (manager) => {
     handleOpenUpdateModal(manager);
+  };
+
+  const handleDelete = (manager) => {
+    handleOpenDeleteModal(manager._id);
   };
 
   const columns = [
@@ -86,6 +101,13 @@ function Manager() {
       {isModalOpen && (
         <CreateManager
           closeModal={handleCloseModal}
+          setIsManagerCreated={setIsManagerCreated}
+        />
+      )}
+      {isDeleteModalOpen && (
+        <DeleteManager
+          closeModal={handleCloseDeleteModal}
+          managerId={deleteManagerId}
           setIsManagerCreated={setIsManagerCreated}
         />
       )}
