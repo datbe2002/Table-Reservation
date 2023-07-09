@@ -17,8 +17,8 @@ import ForgotPassword from "../pages/auth/login/ForgotPassword";
 import PrivateRouteManager from "./privateRouteManager";
 import ManagerPage from "../pages/admin/manager";
 import ResetPassword from "../pages/auth/login/ResetPassword";
-
 import ReservationDetail from "../pages/main/reservationdetal/ReservationDetail";
+
 
 
 export default function Router() {
