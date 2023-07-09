@@ -52,7 +52,7 @@ const Reservation = () => {
   const dispatch = useDispatch();
   const reservationObj = useSelector(reservationSelector);
   const user = useSelector((state) => state.auth.userDTO);
-  const reservationId = useSelector(fullResInfoSelector).reservation._id;
+  const reservationId = useSelector(fullResInfoSelector).reservation?._id;
   // const timeList = useSelector(reservationTimeSelector);
 
   //
