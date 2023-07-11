@@ -100,6 +100,7 @@ const Reservation = () => {
       date: dayjs(event.date).format(dateFormat),
       time: dayjs(event.time).format(timeformat),
       position: event.position,
+      note: event.note,
     };
     dispatch(setReservation(obj));
     dispatch(
@@ -190,7 +191,7 @@ const Reservation = () => {
           </Select>
         </Form.Item>
 
-        <Form.Item label="Note:">
+        <Form.Item label="Note:" name="note">
           <TextArea rows={4} />
         </Form.Item>
 
