@@ -37,8 +37,28 @@ body {
   flex-direction: row;
   justify-content: space-between;
   .logo {
-    width: 20%;
-    padding: 0 10px 0 20px;
+    width: 25%;
+    padding: 0 10px 0 10px;
+    position: relative;
+    .logo-name {
+      position: absolute;
+      top: 3%;
+      left: 20%;
+      font-size: 45px;
+      color: #df4649;
+      font-weight: 800;
+      font-style: italic;
+      font-family: "Courier New", Courier, monospace;
+    }
+    .logo-slogan {
+      position: absolute;
+      top: 55%;
+      left: 20%;
+      font-size: 25px;
+      color: #df4649;
+      font-weight: 600;
+      font-family: "Courier New", Courier, monospace;
+    }
   }
   .navigation {
     width: 50%;
@@ -59,7 +79,7 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  
+
   .navigation {
     width: 10%;
     flex-direction: column;
