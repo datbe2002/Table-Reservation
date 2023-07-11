@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./reservation.scss";
 import {
   Button,
@@ -8,6 +8,7 @@ import {
   Input,
   Modal,
   QRCode,
+  Radio,
   Row,
   Select,
   Space,
@@ -27,6 +28,8 @@ import {
   setReservation,
 } from "../../../redux/slice/reservationSlice";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 const slotList = [2, 4, 6];
 const positionList = [
@@ -52,14 +55,20 @@ const Reservation = () => {
   const dispatch = useDispatch();
   const reservationObj = useSelector(reservationSelector);
   const user = useSelector((state) => state.auth.userDTO);
-  const reservationId = useSelector(fullResInfoSelector).reservation?._id;
+  const fullReservation = useSelector(fullResInfoSelector);
+  // fullReservation.message = "a";
   // const timeList = useSelector(reservationTimeSelector);
 
   //
   const navigate = useNavigate();
 
-  // loacl state
+  // local state
   const [open, setOpen] = useState(false);
+  // payment type
+  const [paymentType, setPaymentType] = useState("1");
+  const paymentChange = (e) => {
+    setPaymentType(e.target.value);
+  };
 
   //
   const disabledDate = (current) => {
@@ -69,28 +78,48 @@ const Reservation = () => {
 
   // handler
   const handleSubmit = (event) => {
-    dispatch(
-      makeReservation({ reservation: reservationObj, userID: user._id })
+    // dispatch(
+    //   makeReservation({ reservation: reservationObj, userID: user._id })
+    // );
+    navigate(
+      "../payment/" + fullReservation.reservation._id + "/" + paymentType
     );
-    navigate("../reservation/" + reservationId);
   };
 
+  useEffect(() => {
+    if (fullReservation.message === "success" && !fullReservation.loading) {
+      dispatch(setReservation({}));
+      setOpen(true);
+      console.log(fullReservation.message);
+    }
+  }, [fullReservation.loading]);
+
   const handleShowModal = (event) => {
-    // console.log(new Date(event.date).toJSON());
     const obj = {
       noSlot: Number(event.noSlot),
       date: dayjs(event.date).format(dateFormat),
       time: dayjs(event.time).format(timeformat),
       position: event.position,
     };
-
     dispatch(setReservation(obj));
-
-    setOpen(true);
+    dispatch(
+      makeReservation({ reservation: reservationObj, userID: user._id })
+    );
   };
 
   const handleCancel = () => {
+    cancelOrder(fullReservation.reservation?._id);
     setOpen(false);
+  };
+
+  const cancelOrder = async (_reservationId) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8000/api/manager/cancel/table/${_reservationId}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // component
@@ -98,7 +127,7 @@ const Reservation = () => {
     {
       key: "1",
       label: `Banking`,
-      children: `Content of Tab Pane 1`,
+      children: `${fullReservation.reservation?.price}`,
     },
     {
       key: "2",
@@ -181,12 +210,18 @@ const Reservation = () => {
         centered
         width={800}
         footer={[
-          <Tabs defaultActiveKey="1" items={paymentMethod} />,
+          <div style={{ margin: "10px" }} key="payment">
+            <p>Payment method</p>
+            <Radio.Group value={paymentType} onChange={paymentChange}>
+              <Radio.Button value="1">Type 1</Radio.Button>
+              <Radio.Button value="2">Type 2</Radio.Button>
+            </Radio.Group>
+          </div>,
           <Button key="back" onClick={handleCancel}>
             Cancel
           </Button>,
           <Button key="submit" type="primary" onClick={handleSubmit}>
-            Done
+            Proceed to payment
           </Button>,
         ]}
       >
@@ -202,37 +237,45 @@ const Reservation = () => {
         >
           <div className="detail-item">
             <div className="detail-content">
-              <label>Number of seat:</label>
-              {reservationObj.noSlot}
+              <label>Table:</label>
+              {fullReservation.reservation?.table.name}
             </div>
           </div>
           <div className="detail-item">
             <div className="detail-content">
-              <label>Date:</label>
-              {new Date(reservationObj.date).toLocaleDateString("en-US")}
+              <label>Number of seat:</label>
+              {fullReservation.reservation?.slot}
             </div>
           </div>
           <div className="detail-item">
+            <div className="detail-content">
+              <label>Date and time:</label>
+              {fullReservation.reservation?.dateTime}
+              {/* {new Date(fullReservation.reservation.date)} */}
+            </div>
+          </div>
+          {/* <div className="detail-item">
             <div className="detail-content">
               <label>Time:</label>
-              {reservationObj.time}
+              {fullReservation.reservation?.time}
             </div>
-          </div>
+          </div> */}
           <div className="detail-item">
             <div className="detail-content">
               <label>Position:</label>
-              {reservationObj.position}
+              {fullReservation.reservation?.position}
             </div>
           </div>
           <div className="detail-item">
             <div className="detail-content">
               <label>Note:</label>
-              {reservationObj.note}
+              {fullReservation.reservation?.note}
             </div>
           </div>
         </Space>
         <Divider />
       </Modal>
+      <ToastContainer />
     </div>
   );
 };
