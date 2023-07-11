@@ -19,6 +19,7 @@ import ResetPassword from "../pages/auth/login/ResetPassword";
 import ReservationDetail from "../pages/main/reservationdetal/ReservationDetail";
 import ListReservation from "../pages/main/reservation_list/ListReservation";
 import DetailReservation from "../pages/main/reservation_list/DetailReservation";
+import History from "../pages/main/history_user/History";
 
 export default function Router() {
   const element = useRoutes([
@@ -67,6 +68,10 @@ export default function Router() {
           path: "/dashboard",
           element: <Dashboard />,
         },
+        {
+          path: "/my-history",
+          element: <History />,
+        },
         // view list
         {
           path: "/reservation",
@@ -77,7 +82,7 @@ export default function Router() {
           element: <ReservationDetail />,
         },
         {
-          path: "/profile/:id",
+          path: "/profile",
           // element: <Dashboard />,
           element: <Profile />,
         },

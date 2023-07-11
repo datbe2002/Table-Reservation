@@ -58,21 +58,88 @@ export const forgotPassword = createAsyncThunk(
 );
 
 export const updatePassword = createAsyncThunk(
-    "auth/updatePassword",
-    async (resetData, thunkAPI) => {
-        const resetToken = resetData.resetToken
-      try {
-        const response = await axiosCus.put(
-          `customer/reset-password/${resetToken}`,
-          { password: resetData.password }
-        );
-        return response.data;
-      } catch (error) {
-        toast.error("Failed to update password. Please try again.");
-        throw new Error("Failed to update password. Please try again.");
-      }
+  "auth/updatePassword",
+  async (resetData, thunkAPI) => {
+    const resetToken = resetData.resetToken
+    try {
+      const response = await axiosCus.put(
+        `customer/reset-password/${resetToken}`,
+        { password: resetData.password }
+      );
+      return response.data;
+    } catch (error) {
+      toast.error("Failed to update password. Please try again.");
+      throw new Error("Failed to update password. Please try again.");
     }
-  );
+  }
+);
+
+// export const fetchUserDataById = createAsyncThunk(
+//   "auth/fetch",
+//   async (params, thunkAPI) => {
+//     // const resetToken = resetData.resetToken
+//     const { _id } = params
+//     try {
+//       const response = await axiosCus.get(
+//         `customer/${_id}`
+//       );
+//       return response.data;
+//     } catch (error) {
+//       toast.error("Failed to fetch password. Please try again.");
+//       throw new Error("Failed to update password. Please try again.");
+//     }
+//   }
+// )
+
+export const updateCustomerPassword = createAsyncThunk(
+  "auth/update",
+  async (params, thunkAPI) => {
+    // const resetToken = resetData.resetToken
+    const { passwordTemp, passwordNewTemp, id } = params
+    try {
+      const response = await axiosCus.post(
+        `customer/updatePassword/${id}`,
+        {
+          oldPassword: passwordTemp,
+          newPassword: passwordNewTemp
+        }
+      );
+      toast.success(response.data.message)
+
+    } catch (error) {
+      toast.error(error.response.data.message)
+      throw new Error(error.response.data.message);
+    }
+  }
+);
+export const updateCustomer = createAsyncThunk(
+  "auth/updateCustomerProfile",
+  async (params, thunkAPI) => {
+    // const resetToken = resetData.resetToken
+    console.log(params)
+    const { username, email, address, phone, _id } = params
+    try {
+      const response = await axiosCus.put(
+        `customer/update/${_id}`,
+        {
+          username,
+          email,
+          address,
+          phone
+        }
+      );
+      console.log(response.data)
+      toast.success(response.data.message)
+      return response.data;
+
+
+    } catch (error) {
+      toast.error(error.response.data.message)
+      throw new Error(error.response.data.message);
+    }
+  }
+);
+
 
 const initialState = {
   userDTO: {},
@@ -105,12 +172,28 @@ export const authSlice = createSlice({
         state.loading = false;
         state.userDTO = action.payload.customer;
         state.token = action.payload.token;
+        state.error = null
+
       })
+      // .addCase(fetchUserDataById.pending, (state) => {
+      //   state.loading = true;
+      // })
+      // .addCase(fetchUserDataById.rejected, (state, action) => {
+      //   state.loading = false;
+      //   state.error = action.error;
+      // })
+      // .addCase(fetchUserDataById.fulfilled, (state, action) => {
+      //   state.loading = false;
+      //   state.userDTO = action.payload.customer;
+      //   // state.token = action.payload.token;
+      // })
       .addCase(forgotPassword.pending, (state) => {
         state.loading = true;
       })
       .addCase(forgotPassword.fulfilled, (state, action) => {
         state.loading = false;
+        state.error = null
+
         // Xử lý phản hồi thành công từ API nếu cần thiết
       })
       .addCase(forgotPassword.rejected, (state, action) => {
@@ -122,9 +205,36 @@ export const authSlice = createSlice({
       })
       .addCase(updatePassword.fulfilled, (state) => {
         state.loading = false;
+        state.error = null
+
         // Xử lý phản hồi thành công từ API nếu cần thiết
       })
       .addCase(updatePassword.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error;
+      })
+      .addCase(updateCustomerPassword.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateCustomerPassword.fulfilled, (state) => {
+        state.loading = false;
+        // Xử lý phản hồi thành công từ API nếu cần thiết
+        state.error = null
+      })
+      .addCase(updateCustomerPassword.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error;
+      })
+      .addCase(updateCustomer.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateCustomer.fulfilled, (state, action) => {
+        state.loading = false;
+        // Xử lý phản hồi thành công từ API nếu cần thiết
+        state.userDTO = action.payload.customer;
+        state.error = null
+      })
+      .addCase(updateCustomer.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error;
       });

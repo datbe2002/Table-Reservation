@@ -39,7 +39,7 @@ const Navigation = (props) => {
       {element.map((item, index) => (
         <Link
           key={index}
-          to={item.name === "Profile" ? item.path + `/${userID}` : item.path}
+          to={item.name === "Profile" ? item.path : item.path}
           className={active === item.name ? "active" : ""}
           onClick={() => {
             item.name === "Logout" ? handleLogout() : setActive(item.name);

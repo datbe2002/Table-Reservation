@@ -3,160 +3,135 @@ import profileImage from './profileImage.png';
 import eyeIcon from '../profile/eye-slash-solid.svg';
 
 import './Profile.css';
+import { useDispatch, useSelector } from 'react-redux';
+import ChangePassword from './ChangePassword';
+import { updateCustomer } from '../../../redux/slice/authSlice';
+import { ToastContainer } from 'react-toastify';
+// import { fetchUserDataById } from '../../../redux/slice/authSlice';
 
 const UserProfile = () => {
+
+  const { _id, username, phone, email, address } = useSelector(state => state.auth.userDTO)
+
   const [isEditing, setIsEditing] = useState(false);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('**********');
-  const [showPassword, setShowPassword] = useState(false);
-  const [editedPassword, setEditedPassword] = useState('');
+  const [usernameTemp, setNameTemp] = useState(username);
+  const [emailTemp, setEmailTemp] = useState(email);
+  const [phoneTemp, setPhoneTemp] = useState(phone ? phone : 'missing');
+  const [addressTemp, setAddressTemp] = useState(address ? address : 'missing');
+  const [handleOpenModal, setHandleOpenModal] = useState(false)
+  const [error, setError] = useState('')
+  const dispacth = useDispatch()
 
-  useEffect(() => {
-    fetchUserData();
-  }, []);
 
-  const fetchUserData = async () => {
-    try {
-      const response = await fetch('https://63692ab028cd16bba716cff0.mockapi.io/news');
-      const userData = await response.json();
-      const currentUser = userData[0]; 
-      setName(currentUser.name);
-      setEmail(currentUser.email);
-      setPhone(currentUser.phone);
-    } catch (error) {
-      console.error('Error fetching user data:', error);
+  function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    return emailRegex.test(email);
+  }
+  const handleSave = () => {
+    if (!usernameTemp || !emailTemp || !phoneTemp) {
+      setError('Please provide information')
+      return
     }
-  };
-  const updateUserProfile = async () => {
-    try {
-      const response = await fetch(`https://63692ab028cd16bba716cff0.mockapi.io/news/${userId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          phone,
-        }),
-      });
-  
-      if (response.ok) {
-        console.log('User profile updated successfully!');
-        fetchUserData(); 
-      } else {
-        console.error('Failed to update user profile');
-      }
-    } catch (error) {
-      console.error('Error updating user profile:', error);
+    if (!validateEmail(emailTemp)) {
+      setError('Please provide a valid email')
+      return
     }
+    dispacth(updateCustomer({ username: usernameTemp, email: emailTemp, phone: phoneTemp, address: addressTemp, _id }))
+
+    setIsEditing(false);
   };
-  
-  
+
 
   const handleEdit = () => {
     setIsEditing(true);
-    setEditedPassword(password);
   };
-  const handleSave = () => {
-    setIsEditing(false);
-    if (editedPassword !== '') {
-      setPassword(editedPassword);
-    }
-    setEditedPassword('');
-    updateUserProfile();
-  };
-  
+
 
   const handleCancel = () => {
+    setError('')
     setIsEditing(false);
-    setEditedPassword('');
   };
 
-  const handlePasswordChange = (e) => {
-    setEditedPassword(e.target.value);
-  };
-
-  const handleTogglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  
   return (
     <div className="user-profile">
-      <h2>{name}'s Profile</h2>
-      <div className="profile-image">
-        <img src={profileImage} alt="Profile" />
-      </div>
-      <div className="profile-info">
-        <div>
-          <div className="field">
-            <label className="label">Name:</label>
-            {isEditing ? (
-              <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-            ) : (
-              <span className="value">{name}</span>
-            )}
+      {!handleOpenModal ?
+        <>
+
+          <h2>{username}'s Profile</h2>
+          <div className="profile-image">
+            <img src={profileImage} alt="Profile" />
           </div>
-          <div className="field">
-            <label className="label">Email:</label>
-            {isEditing ? (
-              <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
-            ) : (
-              <span className="value">{email}</span>
-            )}
-          </div>
-        </div>
-        <div>
-          <div className="field">
-            <label className="label">Password:</label>
-            <div className="password-field">
-              {isEditing ? (
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={editedPassword !== '' ? editedPassword : password}
-                  onChange={handlePasswordChange}
-                />
-              ) : (
-                <span className="value">**********</span>
-              )}
-              {isEditing && (
-                <img
-                  className="eye-icon"
-                  src={eyeIcon}
-                  alt="Toggle Password Visibility"
-                  onClick={handleTogglePasswordVisibility}
-                />
-              )}
+          <div className="profile-info">
+            <div>
+              <div className="field">
+                <label className="label">Name:</label>
+                {isEditing ? (
+                  <input type="text" required value={usernameTemp} onChange={(e) => setNameTemp(e.target.value)} />
+                ) : (
+                  <span className="value">{username}</span>
+                )}
+              </div>
+              <div className="field">
+                <label className="label">Email:</label>
+                {isEditing ? (
+                  <input type="email" required value={emailTemp} onChange={(e) => setEmailTemp(e.target.value)} />
+                ) : (
+                  <span className="value">{email}</span>
+                )}
+              </div>
             </div>
+            <div>
+              <div className="field">
+                {/* here */}
+                <label className="label">Address:</label>
+                {isEditing ? (
+                  <input type="text" required value={addressTemp} onChange={(e) => setAddressTemp(e.target.value)} />
+                ) : (
+                  <span className="value">{address}</span>
+                )}
+              </div>
+              <div className="field">
+                <label className="label">Phone:</label>
+                {isEditing ? (
+                  <input type="text" required value={phoneTemp} onChange={(e) => setPhoneTemp(e.target.value)} />
+                ) : (
+                  <span className="value">{phone}</span>
+                )}
+              </div>
+            </div>
+            {isEditing && (<div className='error-message'>{error}</div>)}
+            {!isEditing && (<div>
+              <label style={{
+                cursor: 'pointer',
+                color: 'black',
+              }} className="label" onClick={() => setHandleOpenModal(true)}>Change my password</label>
+
+            </div>)}
           </div>
-          <div className="field">
-            <label className="label">Phone:</label>
-            {isEditing ? (
-              <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
-            ) : (
-              <span className="value">{phone}</span>
-            )}
-          </div>
-        </div>
-      </div>
-      {isEditing ? (
-        <div className="button-group">
-          <button className="save-button" onClick={handleSave}>
-            Save
-          </button>
-          <button className="cancel-button" onClick={handleCancel}>
-            Cancel
-          </button>
-        </div>
-      ) : (
-        <button className="edit-button" onClick={handleEdit}>
-          Edit
-        </button>
-      )}
+          {isEditing ? (
+            <div className="button-group">
+              <button className="save-button" onClick={handleSave}>
+                Save
+              </button>
+              <button className="cancel-button" onClick={handleCancel}>
+                Cancel
+              </button>
+            </div>
+          ) : (
+            <button className="edit-button" onClick={handleEdit}>
+              Edit
+            </button>
+          )}
+        </>
+        :
+        <ChangePassword setHandleOpenModal={setHandleOpenModal} id={_id} />
+      }
+      <ToastContainer />
+
     </div>
+
+
   );
 };
 

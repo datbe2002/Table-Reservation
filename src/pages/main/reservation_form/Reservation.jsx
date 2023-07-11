@@ -125,7 +125,7 @@ const Reservation = () => {
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 16 }}
         onFinish={handleShowModal}
-        // onFinishFailed={onFinishFailed}
+      // onFinishFailed={onFinishFailed}
       >
         <Form.Item
           name="noSlot"

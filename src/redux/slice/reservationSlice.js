@@ -34,9 +34,25 @@ export const makeReservation = createAsyncThunk(
   }
 );
 
+export const getReservationByUser = createAsyncThunk(
+  "reservation/history",
+  async (params, thunkAPI) => {
+    try {
+      const { _id } = params;
+      const response = await axiosCus.get(`reservation/${_id}`);
+      console.log(response.data);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return thunkAPI.rejectWithValue(err.response);
+    }
+  }
+);
+
 const initialState = {
   reservationDTO: {},
   time: {},
+  myReservation: [],
   fullReservation: {},
   tablePosition: {},
   msg: "",
@@ -66,6 +82,20 @@ export const reservationSlice = createSlice({
       .addCase(makeReservation.fulfilled, (state, action) => {
         state.loading = false;
         state.fullReservation = action.payload;
+      })
+      .addCase(getReservationByUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getReservationByUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.err;
+      })
+      .addCase(getReservationByUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.myReservation = action.payload.allReservations;
+        state.message = action.payload.message
+        state.error = null;
+
       });
   },
 });
