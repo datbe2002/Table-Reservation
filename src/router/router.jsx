@@ -16,7 +16,6 @@ import ForgotPassword from "../pages/auth/login/ForgotPassword";
 import PrivateRouteManager from "./privateRouteManager";
 import ManagerPage from "../pages/admin/manager";
 import ResetPassword from "../pages/auth/login/ResetPassword";
-import ReservationDetail from "../pages/main/reservationdetal/ReservationDetail";
 import ListReservation from "../pages/main/reservation_list/ListReservation";
 import DetailReservation from "../pages/main/reservation_list/DetailReservation";
 
@@ -73,8 +72,8 @@ export default function Router() {
           element: <Reservation />,
         },
         {
-          path: "/reservation/:id",
-          element: <ReservationDetail />,
+          path: "/payment/:_reservationId/:paymentType",
+          element: <Payment />,
         },
         {
           path: "/profile/:id",

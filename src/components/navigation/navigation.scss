@@ -3,12 +3,14 @@
 .navigation {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: flex-end;
+  margin-right: 60px;
   padding: 0 20px 0 10px;
   a {
     padding: 2px 5px;
     text-decoration: none;
     color: #ffffff;
+    margin: 0 40px;
   }
 
   .active {
