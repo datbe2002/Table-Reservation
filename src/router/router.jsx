@@ -41,21 +41,21 @@ export default function Router() {
     {
       path: "/admin/login",
       element: <LoginAdmin />,
-    },
-    {
-      path: "/listReservation",
-      element: <ListReservation />,
-    },
-    {
-      path: "/reservation/detail/:_reservationId",
-      element: <DetailReservation />,
-    },
+    }, 
     {
       element: <PrivateRouteManager />,
       children: [
         {
           path: "/pageManager",
           element: <ManagerPage />,
+        },
+        {
+          path: "/listReservation",
+          element: <ListReservation />,
+        },
+        {
+          path: "/reservation/detail/:_reservationId",
+          element: <DetailReservation />,
         },
       ],
     },

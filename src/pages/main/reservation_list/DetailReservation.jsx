@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import "./DetailReservation.scss";
 
 function DetailReservation() {
   const { _reservationId } = useParams();
@@ -26,9 +27,6 @@ function DetailReservation() {
     try {
       await axios.post(`http://localhost:8000/api/manager/clear/table/${_reservationId}`);
       console.log('Table cleared successfully');
-      if (currentStatus !== "Cancelled") {
-        fetchReservation();
-      }
     } catch (error) {
       console.error(error);
     }
@@ -49,18 +47,43 @@ function DetailReservation() {
   }
 
   return (
-    <div>
+    <div className="reservation-detail">
       <h1>Reservation Detail</h1>
-      <p>User: {reservationArray.reservation.user}</p>
-      <p>Date: {reservationArray.reservation.dateTime}</p>
-      <p>Position: {reservationArray.reservation.position}</p>
-      <p>Status: {currentStatus}</p>
-      <p>Note: {reservationArray.reservation.note}</p>
-      <p>Table: {reservationArray.reservation.table?.name}</p>
-      <p>Price: {reservationArray.reservation.price}</p>
-      <div>
-        <button onClick={handleClear}>Clear</button>
-        <button onClick={handleCancel}>Cancel</button>
+
+      <div className="detail-item">
+        <span className="detail-label">User:</span>{" "}
+        {reservationArray.reservation.user}
+      </div>
+      <div className="detail-item">
+        <span className="detail-label">Date:</span>{" "}
+        {reservationArray.reservation.dateTime}
+      </div>
+      <div className="detail-item">
+        <span className="detail-label">Position:</span>{" "}
+        {reservationArray.reservation.position}
+      </div>
+      <div className="detail-item">
+        <span className="detail-label">Status:</span> {currentStatus}
+      </div>
+      <div className="detail-item">
+        <span className="detail-label">Note:</span>{" "}
+        {reservationArray.reservation.note}
+      </div>
+      <div className="detail-item">
+        <span className="detail-label">Table:</span>{" "}
+        {reservationArray.reservation.table?.name}
+      </div>
+      <div className="detail-item">
+        <span className="detail-label">Price:</span>{" "}
+        {reservationArray.reservation.price}
+      </div>
+      <div className="button-group">
+        <button className="clear-button" onClick={handleClear}>
+          Clear
+        </button>
+        <button className="cancel-button" onClick={handleCancel}>
+          Cancel
+        </button>
       </div>
     </div>
   );
