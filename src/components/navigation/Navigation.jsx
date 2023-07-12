@@ -4,30 +4,45 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout, logoutUser } from "../../redux/slice/authSlice";
 
-const element = [
-  {
-    path: "/reservation",
-    name: "Reservation",
-  },
-  {
-    path: "/my-history",
-    name: "History",
-  },
-  {
-    path: "/profile",
-    name: "Profile",
-  },
-  {
-    path: "/login",
-    name: "Logout",
-  },
-];
-
 const Navigation = (props) => {
+  let element = [
+    {
+      path: "/reservation",
+      name: "Reservation",
+    },
+    {
+      path: "/my-history",
+      name: "History",
+    },
+    {
+      path: "/profile",
+      name: "Profile",
+    },
+    {
+      path: "/login",
+      name: "Logout",
+    },
+  ];
+
   const [active, setActive] = useState("");
   const { userID } = props;
 
   const dispatch = useDispatch();
+
+  if (userID == "") {
+    // const index = element.findIndex((el) => el.name === "Login");
+    // element[index].name = "Logout";
+    element = [
+      // {
+      //   path: "/reservation",
+      //   name: "Reservation",
+      // },
+      {
+        path: "/login",
+        name: "Login",
+      },
+    ];
+  }
 
   const handleLogout = () => {
     dispatch(logoutUser());
@@ -39,7 +54,7 @@ const Navigation = (props) => {
       {element.map((item, index) => (
         <Link
           key={index}
-          to={item.name === "Profile" ? item.path + `/${userID}` : item.path}
+          to={item.name === "Profile" ? item.path : item.path}
           className={active === item.name ? "active" : ""}
           onClick={() => {
             item.name === "Logout" ? handleLogout() : setActive(item.name);
