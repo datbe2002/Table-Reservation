@@ -87,12 +87,12 @@ const Reservation = () => {
   };
 
   useEffect(() => {
-    if (fullReservation.message === "success" && !fullReservation.loading) {
+    if (fullReservation?.message === "success" && !fullReservation?.loading) {
       dispatch(setReservation({}));
       setOpen(true);
       console.log(fullReservation.message);
     }
-  }, [fullReservation.loading]);
+  }, [fullReservation?.loading]);
 
   const handleShowModal = (event) => {
     const obj = {
@@ -128,7 +128,7 @@ const Reservation = () => {
     {
       key: "1",
       label: `Banking`,
-      children: `${fullReservation.reservation?.price}`,
+      children: `${fullReservation?.reservation?.price}`,
     },
     {
       key: "2",
@@ -239,19 +239,19 @@ const Reservation = () => {
           <div className="detail-item">
             <div className="detail-content">
               <label>Table:</label>
-              {fullReservation.reservation?.table.name}
+              {fullReservation?.reservation?.table.name}
             </div>
           </div>
           <div className="detail-item">
             <div className="detail-content">
               <label>Number of seat:</label>
-              {fullReservation.reservation?.slot}
+              {fullReservation?.reservation?.slot}
             </div>
           </div>
           <div className="detail-item">
             <div className="detail-content">
               <label>Date and time:</label>
-              {fullReservation.reservation?.dateTime}
+              {fullReservation?.reservation?.dateTime}
               {/* {new Date(fullReservation.reservation.date)} */}
             </div>
           </div>
@@ -264,13 +264,13 @@ const Reservation = () => {
           <div className="detail-item">
             <div className="detail-content">
               <label>Position:</label>
-              {fullReservation.reservation?.position}
+              {fullReservation?.reservation?.position}
             </div>
           </div>
           <div className="detail-item">
             <div className="detail-content">
               <label>Note:</label>
-              {fullReservation.reservation?.note}
+              {fullReservation?.reservation?.note}
             </div>
           </div>
         </Space>
