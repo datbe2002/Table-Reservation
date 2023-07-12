@@ -25,7 +25,7 @@ const History = () => {
 
     console.log(data)
 
-    const transformedData = data.map((item) => {
+    const transformedData = data?.map((item) => {
         return {
             ...item,
             username: item.user.username
@@ -75,7 +75,7 @@ const History = () => {
             render: (day) => {
                 return (
                     <div>
-                        {format((new Date(day)), 'dd/MM/yyyy')}
+                        {format((new Date(day)), 'dd/MM/yyyy HH:mm a')}
                     </div>
                 )
             }
