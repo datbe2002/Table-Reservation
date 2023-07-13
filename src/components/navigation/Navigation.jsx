@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./navigation.scss";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout, logoutUser } from "../../redux/slice/authSlice";
 
-const Navigation = (props) => {
+const Navigation = () => {
+  const { token } = useSelector((state) => state.auth);
+
   let element = [
     {
       path: "/reservation",
@@ -19,50 +21,40 @@ const Navigation = (props) => {
       name: "Profile",
     },
     {
-      path: "/login",
+      path: "/",
       name: "Logout",
     },
   ];
 
   const [active, setActive] = useState("");
-  const { userID } = props;
 
   const dispatch = useDispatch();
 
-  if (userID == "") {
-    // const index = element.findIndex((el) => el.name === "Login");
-    // element[index].name = "Logout";
-    element = [
-      // {
-      //   path: "/reservation",
-      //   name: "Reservation",
-      // },
-      {
-        path: "/login",
-        name: "Login",
-      },
-    ];
-  }
-
   const handleLogout = () => {
     dispatch(logoutUser());
-    console.log("Logout Click");
   };
 
   return (
     <div className="navigation">
-      {element.map((item, index) => (
-        <Link
-          key={index}
-          to={item.name === "Profile" ? item.path : item.path}
-          className={active === item.name ? "active" : ""}
-          onClick={() => {
-            item.name === "Logout" ? handleLogout() : setActive(item.name);
-          }}
-        >
-          {item.name}
+      {token ? (
+        element.map((item, index) => (
+          <Link
+            key={index}
+            to={item.name === "Profile" ? item.path : item.path}
+            className={active === item.name ? "active" : ""}
+            onClick={() => {
+              item.name === "Logout" ? handleLogout() : setActive(item.name);
+            }}
+          >
+            {item.name}
+          </Link>
+        ))
+      ) : (
+        <Link to={'/login'}>
+          Login
         </Link>
-      ))}
+      )}
+
     </div>
   );
 };
