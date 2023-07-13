@@ -4,6 +4,7 @@ import { Modal, Button, Table } from "antd";
 import CreateManager from "./CreateManager";
 import UpdateManager from "./updateManager";
 import DeleteManager from "./DeleteManager";
+import { useSelector } from "react-redux";
 
 function Manager() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,6 +15,8 @@ function Manager() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteManagerId, setDeleteManagerId] = useState(null);
 
+  const userDTO = useSelector((state) => state.auth.userDTO);
+  console.log(userDTO.role);
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };

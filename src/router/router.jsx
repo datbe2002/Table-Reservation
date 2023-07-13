@@ -19,8 +19,10 @@ import ResetPassword from "../pages/auth/login/ResetPassword";
 import ListReservation from "../pages/main/reservation_list/ListReservation";
 import DetailReservation from "../pages/main/reservation_list/DetailReservation";
 import History from "../pages/main/history_user/History";
+import { useSelector } from "react-redux";
 
 export default function Router() {
+const userDTO = useSelector((state) => state.auth.userDTO);
   const element = useRoutes([
     {
       path: "/login",
