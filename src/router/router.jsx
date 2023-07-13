@@ -1,4 +1,8 @@
-import { useLocation, useRoutes } from "react-router-dom";
+import {
+  Navigate,
+  useLocation,
+  useRoutes,
+} from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import React from "react";
 import LoginPage from "../pages/auth/login/LoginPage";
@@ -22,7 +26,7 @@ import History from "../pages/main/history_user/History";
 import { useSelector } from "react-redux";
 
 export default function Router() {
-const userDTO = useSelector((state) => state.auth.userDTO);
+  const userDTO = useSelector((state) => state.auth.userDTO);
   const element = useRoutes([
     {
       path: "/login",
@@ -43,17 +47,18 @@ const userDTO = useSelector((state) => state.auth.userDTO);
     {
       path: "/admin/login",
       element: <LoginAdmin />,
-    }, 
+    },
     {
       element: <PrivateRouteManager />,
       children: [
         {
           path: "/pageManager",
-          element: <ManagerPage />,
+          element: userDTO.role === "Admin" ? <ManagerPage /> : null,
+          
         },
         {
           path: "/listReservation",
-          element: <ListReservation />,
+          element: userDTO.role === "Manager" ? <ListReservation /> : null,
         },
         {
           path: "/reservation/detail/:_reservationId",
@@ -94,12 +99,14 @@ const userDTO = useSelector((state) => state.auth.userDTO);
       ],
     },
   ]);
-  const location = useLocation();
 
   if (!element) return null;
   return (
     <AnimatePresence mode="wait" initial={false}>
-      {React.cloneElement(element, { key: location.pathname })}
+      {React.cloneElement(
+        element,
+        { key: location.pathname }
+      )}
     </AnimatePresence>
   );
 }
