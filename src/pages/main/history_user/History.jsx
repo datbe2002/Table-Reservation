@@ -9,7 +9,7 @@ import ReservationDetailUser from './ReservationDetailUser';
 
 const History = () => {
 
-    const { _id } = useSelector(state => state.auth.userDTO)
+    const { _id } = useSelector(state => state.auth?.userDTO)
 
     const dispatch = useDispatch()
 
