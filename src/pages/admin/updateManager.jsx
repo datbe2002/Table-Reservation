@@ -1,20 +1,36 @@
 import React, { useState } from "react";
-import { Modal } from "antd";
+import { Modal, Input, Button } from "antd";
 import axios from "axios";
 
 function UpdateManager({ closeModal, setIsManagerUpdated, managerData }) {
   const [username, setUsername] = useState(managerData.username);
-  const [password, setPassword] = useState(managerData.password);
   const [phone, setPhone] = useState(managerData.phone);
   const [address, setAddress] = useState(managerData.address);
   const [email, setEmail] = useState(managerData.email);
+  const [phoneError, setPhoneError] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Resetting previous errors
+    setPhoneError("");
+    setEmailError("");
+
+    // Validation checks
+
+    if (!/^\d{10}$/.test(phone)) {
+      setPhoneError("Phone number should be 10 digits.");
+      return;
+    }
+
+    if (!/^[^\s@]+@gmail\.com$/.test(email)) {
+      setEmailError("Invalid email format. Please enter a Gmail address.");
+      return;
+    }
+
     const data = {
       username,
-      password,
       email,
       phone,
       address,
@@ -23,7 +39,7 @@ function UpdateManager({ closeModal, setIsManagerUpdated, managerData }) {
 
     try {
       const response = await axios.put(
-        `http://localhost:8000/api/manager/${managerData.id}`,
+        `http://localhost:8000/api/manager/update/${managerData._id}`,
         data
       );
       console.log("Success:", response.data);
@@ -36,7 +52,7 @@ function UpdateManager({ closeModal, setIsManagerUpdated, managerData }) {
 
   return (
     <Modal
-      title="Update manager"
+      title="Update Manager"
       open={true}
       onOk={closeModal}
       onCancel={closeModal}
@@ -45,53 +61,48 @@ function UpdateManager({ closeModal, setIsManagerUpdated, managerData }) {
       <div>
         <h2>Update Manager</h2>
         <form onSubmit={handleSubmit}>
-          {/* Update form content */}
           <div>
             <label>Username:</label>
-            <input
+            <Input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
-          <div>
-            <label>Password:</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
+          
           <div>
             <label>Email:</label>
-            <input
+            <Input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
+            {emailError && <span style={{color:'red'}} className="error">{emailError}</span>}
           </div>
           <div>
             <label>Phone:</label>
-            <input
-              type="text"
+            <Input
+              type="number"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               required
             />
+            {phoneError && <span style={{color:'red'}} className="error">{phoneError}</span>}
           </div>
           <div>
             <label>Address:</label>
-            <input
+            <Input
               type="text"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               required
             />
           </div>
-          <button type="submit">Update</button>
+          <Button type="primary" htmlType="submit">
+            Update
+          </Button>
         </form>
       </div>
     </Modal>
