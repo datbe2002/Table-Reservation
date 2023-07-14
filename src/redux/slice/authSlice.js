@@ -187,6 +187,19 @@ export const authSlice = createSlice({
       //   state.userDTO = action.payload.customer;
       //   // state.token = action.payload.token;
       // })
+      .addCase(loginManager.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(loginManager.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error;
+      })
+      .addCase(loginManager.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userDTO = action.payload.manager;
+        state.token = action.payload.token;
+        state.error = null
+      })
       .addCase(forgotPassword.pending, (state) => {
         state.loading = true;
       })

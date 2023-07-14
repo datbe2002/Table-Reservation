@@ -103,3 +103,16 @@ form p a {
 .errorMessage {
   color: red;
 }
+.login-with-admin-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #337ab7;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.login-with-admin-button:hover {
+  background-color: #286090;
+}

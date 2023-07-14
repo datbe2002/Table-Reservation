@@ -1,4 +1,8 @@
-import { useLocation, useRoutes } from "react-router-dom";
+import {
+  Navigate,
+  useLocation,
+  useRoutes,
+} from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import React from "react";
 import LoginPage from "../pages/auth/login/LoginPage";
@@ -19,8 +23,10 @@ import ResetPassword from "../pages/auth/login/ResetPassword";
 import ListReservation from "../pages/main/reservation_list/ListReservation";
 import DetailReservation from "../pages/main/reservation_list/DetailReservation";
 import History from "../pages/main/history_user/History";
+import { useSelector } from "react-redux";
 
 export default function Router() {
+  const userDTO = useSelector((state) => state.auth.userDTO);
   const element = useRoutes([
     {
       path: "/login",
@@ -43,19 +49,20 @@ export default function Router() {
       element: <LoginAdmin />,
     },
     {
-      path: "/listReservation",
-      element: <ListReservation />,
-    },
-    {
-      path: "/reservation/detail/:_reservationId",
-      element: <DetailReservation />,
-    },
-    {
       element: <PrivateRouteManager />,
       children: [
         {
           path: "/pageManager",
-          element: <ManagerPage />,
+          element: userDTO.role === "Admin" ? <ManagerPage /> : null,
+          
+        },
+        {
+          path: "/listReservation",
+          element: userDTO.role === "Manager" ? <ListReservation /> : null,
+        },
+        {
+          path: "/reservation/detail/:_reservationId",
+          element: <DetailReservation />,
         },
       ],
     },
@@ -92,12 +99,14 @@ export default function Router() {
       ],
     },
   ]);
-  const location = useLocation();
 
   if (!element) return null;
   return (
     <AnimatePresence mode="wait" initial={false}>
-      {React.cloneElement(element, { key: location.pathname })}
+      {React.cloneElement(
+        element,
+        { key: location.pathname }
+      )}
     </AnimatePresence>
   );
 }
