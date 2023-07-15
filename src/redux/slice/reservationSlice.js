@@ -8,16 +8,6 @@ const axiosCus = axios.create({
   baseURL: "http://localhost:8000/api/",
 });
 
-export const getTime = createAsyncThunk(
-  "reservation/getTime",
-  async (params, thunkAPI) => {
-    try {
-    } catch (err) {
-      // console.log(err);
-    }
-  }
-);
-
 export const makeReservation = createAsyncThunk(
   "reservation/makeReservation",
   async (params, thunkAPI) => {
@@ -26,7 +16,7 @@ export const makeReservation = createAsyncThunk(
       const _id = params.userID;
       const data = { ...reservation, _id };
       const response = await axiosCus.post("reservation", JSON.stringify(data));
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (err) {
       setReservation({});
@@ -51,7 +41,7 @@ export const getReservationByUser = createAsyncThunk(
     try {
       const { _id } = params;
       const response = await axiosCus.get(`reservation/${_id}`);
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     } catch (err) {
       console.log(err);
@@ -108,9 +98,8 @@ export const reservationSlice = createSlice({
       .addCase(getReservationByUser.fulfilled, (state, action) => {
         state.loading = false;
         state.myReservation = action.payload.allReservations;
-        state.message = action.payload.message
+        state.message = action.payload.message;
         state.error = null;
-
       });
   },
 });

@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from "react";
 import "./payment.scss";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fullResInfoSelector,
-  reservationSelector,
-} from "../../../redux/selector";
-import { Button, Divider, QRCode, Tabs } from "antd";
-import { useNavigate, useParams } from "react-router-dom";
-import { DownloadOutlined } from "@ant-design/icons";
+import { fullResInfoSelector } from "../../../redux/selector";
+
+import { useParams } from "react-router-dom";
 import axios from "axios";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements, PaymentElement } from "@stripe/react-stripe-js";
+
+import { PaymentForm } from "./PaymentForm";
 
 const path = "http://localhost:5173/reservation";
 
 const Payment = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const reservationObj = useSelector(reservationSelector);
   const fullReservation = useSelector(fullResInfoSelector);
   const { _reservationId } = useParams();
-  const [currentStatus, setCurrentStatus] = useState(null);
-  // console.log(reservationObj);
+
+  const [stripePromise, setStripePromise] = useState(null);
+  const [clientSecret, setClientSecret] = useState("");
 
   useEffect(() => {
     const fetchReservation = async () => {
@@ -27,8 +25,6 @@ const Payment = () => {
         const response = await axios.get(
           `http://localhost:8000/api/reservation/detail/${_reservationId}`
         );
-        console.log(response.data);
-        setCurrentStatus(response.data.reservation.status);
       } catch (error) {
         console.error(error);
       }
@@ -37,62 +33,40 @@ const Payment = () => {
     fetchReservation();
   }, [_reservationId]);
 
-  const handleDone = () => {
-    navigate("../reservation/detail/" + fullReservation.reservation._id);
-  };
+  useEffect(() => {
+    fetch("http://localhost:8000/api/payment/config").then(async (r) => {
+      const { publisableKey } = await r.json();
+      setStripePromise(loadStripe(publisableKey));
+    });
+  }, []);
 
-  // const downloadQRCode = () => {
-  //   const canvas = document.getElementById("myqrcode")?.querySelector("canvas");
-  //   if (canvas) {
-  //     const url = canvas.toDataURL();
-  //     const a = document.createElement("a");
-  //     a.download = "QRCode.png";
-  //     a.href = url;
-  //     document.body.appendChild(a);
-  //     a.click();
-  //     document.body.removeChild(a);
-  //   }
-  // };
-
-  const paymentMethod = [
-    {
-      key: "1",
-      label: `Banking`,
-      children: (
-        <>
-          <div>STK</div>
-          <div>MSG</div>
-        </>
-      ),
-    },
-    {
-      key: "2",
-      label: `QR Pay`,
-      children: (
-        <>
-          <QRCode value={"aaa"} />
-        </>
-      ),
-    },
-  ];
+  useEffect(() => {
+    if (fullReservation?.reservation?.price) {
+      const data = { amount: fullReservation.reservation.price };
+      console.log(data);
+      fetch("http://localhost:8000/api/payment/create-payment-intent", {
+        method: "POST",
+        body: JSON.stringify(data),
+      })
+        .then(async (r) => {
+          const { clientSecret } = await r.json();
+          setClientSecret(clientSecret);
+          console.log(r);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+  }, []);
   return (
     <div className="payment-container">
-      <div className="payment-bottom">
-        <div className="detail-title">Total</div>
-        <div>{fullReservation.reservation?.price}</div>
-        <Tabs defaultActiveKey="1" items={paymentMethod} />
-        <Button
-          style={{
-            width: "220px",
-            height: "45px",
-            margin: "0 auto",
-          }}
-          type="primary"
-          onClick={handleDone}
-        >
-          Done
-        </Button>
-      </div>
+      {stripePromise && clientSecret && (
+        <Elements stripe={stripePromise} options={{ clientSecret }}>
+          <PaymentForm
+            url={`${window.location.origin}/detail/${fullReservation?.reservation._id}`}
+          />
+        </Elements>
+      )}
     </div>
   );
 };

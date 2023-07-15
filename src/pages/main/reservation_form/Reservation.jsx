@@ -90,7 +90,6 @@ const Reservation = () => {
     if (fullReservation?.message === "success" && !fullReservation?.loading) {
       dispatch(setReservation({}));
       setOpen(true);
-      console.log(fullReservation.message);
     }
   }, [fullReservation?.loading]);
 
@@ -102,10 +101,7 @@ const Reservation = () => {
       position: event.position,
       note: event.note,
     };
-    dispatch(setReservation(obj));
-    dispatch(
-      makeReservation({ reservation: reservationObj, userID: user._id })
-    );
+    dispatch(makeReservation({ reservation: obj, userID: user._id }));
   };
 
   const handleCancel = () => {
@@ -155,7 +151,7 @@ const Reservation = () => {
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 16 }}
         onFinish={handleShowModal}
-      // onFinishFailed={onFinishFailed}
+        // onFinishFailed={onFinishFailed}
       >
         <Form.Item
           name="noSlot"
@@ -211,13 +207,6 @@ const Reservation = () => {
         centered
         width={800}
         footer={[
-          <div style={{ margin: "10px" }} key="payment">
-            <p>Payment method</p>
-            <Radio.Group value={paymentType} onChange={paymentChange}>
-              <Radio.Button value="1">Type 1</Radio.Button>
-              <Radio.Button value="2">Type 2</Radio.Button>
-            </Radio.Group>
-          </div>,
           <Button key="back" onClick={handleCancel}>
             Cancel
           </Button>,
@@ -271,6 +260,12 @@ const Reservation = () => {
             <div className="detail-content">
               <label>Note:</label>
               {fullReservation?.reservation?.note}
+            </div>
+          </div>
+          <div className="detail-item">
+            <div className="detail-content">
+              <label>Total:</label>
+              {fullReservation?.reservation?.price} VNĐ
             </div>
           </div>
         </Space>
