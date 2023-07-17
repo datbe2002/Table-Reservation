@@ -42,11 +42,9 @@ const Payment = () => {
 
   useEffect(() => {
     if (fullReservation?.reservation?.price) {
-      const data = { amount: fullReservation.reservation.price };
-      console.log(data);
-      fetch("http://localhost:8000/api/payment/create-payment-intent", {
+      const amount = fullReservation.reservation.price
+      fetch(`http://localhost:8000/api/payment/create-payment-intent/${amount}`, {
         method: "POST",
-        body: JSON.stringify(data),
       })
         .then(async (r) => {
           const { clientSecret } = await r.json();
