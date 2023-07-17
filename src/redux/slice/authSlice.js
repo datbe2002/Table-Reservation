@@ -33,7 +33,14 @@ export const loginManager = createAsyncThunk(
       const loginDataManager = param.loginDataManager;
       const navigate = param.navigate;
       const response = await axiosCus.post("manager/login", loginDataManager);
-      navigate("/pageManager");
+      console.log(response.data);
+      if (response.data.manager.role === "Admin") {
+        navigate("/pageManager");
+      } else if (response.data.manager.role === "Manager") {
+        navigate("/listReservation");
+      } else {
+        throw new Error("Invalid role");
+      }
       return response.data;
     } catch (error) {
       toast.error("Invalid email or password");

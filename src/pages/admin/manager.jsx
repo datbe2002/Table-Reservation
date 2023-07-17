@@ -16,7 +16,6 @@ function Manager() {
   const [deleteManagerId, setDeleteManagerId] = useState(null);
 
   const userDTO = useSelector((state) => state.auth.userDTO);
-  console.log(userDTO.role);
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
