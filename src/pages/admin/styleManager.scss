@@ -1,0 +1,46 @@
+.update-btn{
+    background-color: rgba(255, 166, 0, 0.798);
+    
+}
+.delete-btn{
+    background-color: rgb(218, 87, 87);
+}
+.manager-container {
+    .title-manager {
+        text-align: center;
+        background-image: linear-gradient(to right, #FFD700, #ff0000); /* Đặt gradient từ màu vàng đến màu cam */
+        background-clip: text; /* Áp dụng gradient chỉ cho văn bản */
+        -webkit-background-clip: text; /* Áp dụng gradient chỉ cho văn bản trên trình duyệt Safari */
+        color: transparent; 
+        font-size: 30px;
+    }
+  .create-btn {
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .create-btn:hover {
+    background-color: #c0c0c0; /* Đặt màu nền khi hover */
+  }
+  .ant-pagination-item a {
+    background-color: transparent;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+  }
+  
+  .ant-pagination-item-active a {
+    background-color: #ffffff;
+    color: #000000;
+  }
+}
