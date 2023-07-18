@@ -79,11 +79,6 @@ function ListReservation() {
       }
 
     },
-    {
-      title: "Table",
-      dataIndex: ["table", "name"],
-      key: "table",
-    },
 
     {
       title: "Action",
