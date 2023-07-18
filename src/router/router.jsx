@@ -20,6 +20,7 @@ import ListReservation from "../pages/main/reservation_list/ListReservation";
 import DetailReservation from "../pages/main/reservation_list/DetailReservation";
 import History from "../pages/main/history_user/History";
 import { useSelector } from "react-redux";
+import ReservationDetail from "../pages/main/reservation_form/ReservationDetail";
 
 export default function Router() {
   const userDTO = useSelector((state) => state.auth.userDTO);
