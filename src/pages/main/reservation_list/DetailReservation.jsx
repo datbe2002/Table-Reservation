@@ -48,37 +48,6 @@ function DetailReservation() {
 
 
   return (
-    // <div className="reservation-detail">
-    //   <h1>Reservation Detail</h1>
-
-    //   <div className="detail-item">
-    //     <span className="detail-label">User:</span>{" "}
-    //     {reservationArray.reservation.user}
-    //   </div>
-    //   <div className="detail-item">
-    //     <span className="detail-label">Date:</span>{" "}
-    //     {reservationArray.reservation.dateTime}
-    //   </div>
-    //   <div className="detail-item">
-    //     <span className="detail-label">Position:</span>{" "}
-    //     {reservationArray.reservation.position}
-    //   </div>
-    //   <div className="detail-item">
-    //     <span className="detail-label">Status:</span> {currentStatus}
-    //   </div>
-    //   <div className="detail-item">
-    //     <span className="detail-label">Note:</span>{" "}
-    //     {reservationArray.reservation.note}
-    //   </div>
-    //   <div className="detail-item">
-    //     <span className="detail-label">Table:</span>{" "}
-    //     {reservationArray.reservation.table?.name}
-    //   </div>
-    //   <div className="detail-item">
-    //     <span className="detail-label">Price:</span>{" "}
-    //     {reservationArray.reservation.price}
-    //   </div>
-    // </div>
     <div className='deltail-session' style={{ width: "60vw", marginTop: "20px", height: "69vh" }}>
       <div className='information'>
         <div>

@@ -57,7 +57,7 @@ function ListReservation() {
       sortDirections: ['ascend', 'descend', 'ascend']
     },
     {
-      title: 'Date',
+      title: 'Booked date and time',
       dataIndex: 'dateTime',
       render: (day) => {
         return (
