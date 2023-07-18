@@ -5,7 +5,7 @@ import CreateManager from "./CreateManager";
 import UpdateManager from "./updateManager";
 import DeleteManager from "./DeleteManager";
 import { useSelector } from "react-redux";
-
+import "./styleManager.scss";
 function Manager() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -16,7 +16,6 @@ function Manager() {
   const [deleteManagerId, setDeleteManagerId] = useState(null);
 
   const userDTO = useSelector((state) => state.auth.userDTO);
-  console.log(userDTO.role);
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -88,18 +87,18 @@ function Manager() {
       key: "action",
       render: (text, record) => (
         <span>
-          <Button onClick={() => handleUpdate(record)}>Update</Button>
-          <Button onClick={() => handleDelete(record)}>Delete</Button>
+          <Button className="update-btn" onClick={() => handleUpdate(record)}>Update</Button>
+          <Button className="delete-btn" onClick={() => handleDelete(record)}>Delete</Button>
         </span>
       ),
     },
   ];
 
   return (
-    <div>
-      <h2>Tất cả người quản lý</h2>
+    <div className="manager-container">
+      <h2 className="title-manager">Tất cả người quản lý</h2>
       <Button className="create-btn" onClick={handleOpenModal}>
-        Create new
+        +
       </Button>
       {isModalOpen && (
         <CreateManager
@@ -127,7 +126,16 @@ function Manager() {
           key: index,
         }))}
         columns={columns}
-        style={{ width: "1000px", height: "500px" }}
+        style={{ width: "1000px", height: "300px" }}
+        pagination={{
+          pageSize: 2,
+          itemRender: (page, type, originalElement) => {
+            if (type === "page") {
+              return <a className={page === 2 ? "active" : ""}>{page}</a>;
+            }
+            return originalElement;
+          },
+        }}
       />
     </div>
   );

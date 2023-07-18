@@ -80,7 +80,6 @@ const initialState = {
     message: null,
     loading: null,
   },
-  tablePosition: {},
   msg: "",
   token: null,
   loading: false,
@@ -93,6 +92,12 @@ export const reservationSlice = createSlice({
   reducers: {
     setReservation: (state, action) => {
       state.reservationDTO = action.payload;
+    },
+    resetFullreservation: (state, action) => {
+      state.fullReservation = {
+        message: null,
+        loading: null,
+      };
     },
   },
   extraReducers: (builder) => {
@@ -140,7 +145,7 @@ export const reservationSlice = createSlice({
 
 export const {
   reducer: reservationReducer,
-  actions: { setReservation },
+  actions: { setReservation, resetFullreservation },
 } = reservationSlice;
 
 export default reservationReducer;

@@ -1,40 +1,37 @@
 .payment-container {
-  width: 100%;
+  width: 70%;
   min-width: 500px;
   margin: 10px auto;
-  padding-bottom: 50px;
-
-  .reservation-detail-container.payment {
-    display: flex;
-    flex-direction: row;
-    .text-info {
-      flex: 2;
-    }
-    .qr-info {
-      margin: 50px 0 0 0;
-      align-self: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex: 1;
-
-      button {
-        margin: 0 auto;
-        width: 150px;
-      }
-    }
+  padding: 20px 0 20px 0px;
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  border-radius: 10px;
+  border: 0.5px solid black;
+  align-items: center;
+  margin-bottom: 200px;
+  .payment-info {
+    width: 70%;
   }
 
-  .payment-bottom {
-    width: 70%;
-    margin: 0 auto;
-    background-color: white;
-    color: #000000;
-    padding: 10px 20px 20px 20px;
-    border-radius: 10px;
-    border: solid black 1px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  .payment-form {
+    min-width: 300px;
+
+    .custom-btn {
+      border-color: transparent;
+      height: 50px;
+      width: 120px;
+      margin: 10px;
+      background-color: rgb(60, 60, 233);
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .custom-btn:disabled {
+      background-color: rgb(71, 158, 229);
+    }
+
+    .payment-msg {
+    }
   }
 }

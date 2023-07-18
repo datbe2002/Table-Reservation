@@ -1,8 +1,4 @@
-import {
-  Navigate,
-  useLocation,
-  useRoutes,
-} from "react-router-dom";
+import { Navigate, useLocation, useRoutes } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import React from "react";
 import LoginPage from "../pages/auth/login/LoginPage";
@@ -15,7 +11,7 @@ import LoginAdmin from "../pages/auth/LoginForManager/loginManager";
 // import TableList from "../pages/main/reservation_form/Reservation";
 import Profile from "../pages/main/profile/Profile";
 import Reservation from "../pages/main/reservation_form/Reservation";
-// import Payment from "../pages/main/payment/payment";
+import Payment from "../pages/main/payment/Payment";
 import ForgotPassword from "../pages/auth/login/ForgotPassword";
 import PrivateRouteManager from "./privateRouteManager";
 import ManagerPage from "../pages/admin/manager";
@@ -24,7 +20,6 @@ import ListReservation from "../pages/main/reservation_list/ListReservation";
 import DetailReservation from "../pages/main/reservation_list/DetailReservation";
 import History from "../pages/main/history_user/History";
 import { useSelector } from "react-redux";
-import Payment from "../pages/main/payment/Payment";
 
 export default function Router() {
   const userDTO = useSelector((state) => state.auth.userDTO);
@@ -48,6 +43,10 @@ export default function Router() {
     {
       path: "/admin/login",
       element: <LoginAdmin />,
+    },
+    {
+      path: "/reservation/:_reservationId",
+      element: <ReservationDetail />,
     },
     {
       element: <PrivateRouteManager />,
@@ -85,7 +84,7 @@ export default function Router() {
           element: <Reservation />,
         },
         {
-          path: "/payment/:_reservationId/:paymentType",
+          path: "/payment/:_reservationId/",
           element: <Payment />,
         },
         {
@@ -93,6 +92,7 @@ export default function Router() {
           // element: <Dashboard />,
           element: <Profile />,
         },
+
         {
           path: "/",
           element: <Home />,
@@ -104,10 +104,7 @@ export default function Router() {
   if (!element) return null;
   return (
     <AnimatePresence mode="wait" initial={false}>
-      {React.cloneElement(
-        element,
-        { key: location.pathname }
-      )}
+      {React.cloneElement(element, { key: location.pathname })}
     </AnimatePresence>
   );
 }

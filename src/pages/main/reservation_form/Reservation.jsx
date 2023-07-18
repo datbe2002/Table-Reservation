@@ -25,12 +25,13 @@ import {
 } from "../../../redux/selector";
 import {
   makeReservation,
+  resetFullreservation,
   setReservation,
 } from "../../../redux/slice/reservationSlice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-
+import { format } from "date-fns";
 const slotList = [2, 4, 6];
 const positionList = [
   { value: "Outdoor", position: "Out door" },
@@ -64,11 +65,6 @@ const Reservation = () => {
 
   // local state
   const [open, setOpen] = useState(false);
-  // payment type
-  const [paymentType, setPaymentType] = useState("1");
-  const paymentChange = (e) => {
-    setPaymentType(e.target.value);
-  };
 
   //
   const disabledDate = (current) => {
@@ -81,9 +77,7 @@ const Reservation = () => {
     // dispatch(
     //   makeReservation({ reservation: reservationObj, userID: user._id })
     // );
-    navigate(
-      "../payment/" + fullReservation.reservation._id + "/" + paymentType
-    );
+    navigate("../payment/" + fullReservation.reservation._id);
   };
 
   useEffect(() => {
@@ -106,6 +100,7 @@ const Reservation = () => {
 
   const handleCancel = () => {
     cancelOrder(fullReservation.reservation?._id);
+    dispatch(resetFullreservation());
     setOpen(false);
   };
 
@@ -118,26 +113,6 @@ const Reservation = () => {
       console.log(error);
     }
   };
-
-  // component
-  const paymentMethod = [
-    {
-      key: "1",
-      label: `Banking`,
-      children: `${fullReservation?.reservation?.price}`,
-    },
-    {
-      key: "2",
-      label: `QR Pay`,
-      children: (
-        <>
-          <div className="qr-payment">
-            <QRCode value={"-"} />
-          </div>
-        </>
-      ),
-    },
-  ];
 
   return (
     <div className="reservation-container">
@@ -207,12 +182,21 @@ const Reservation = () => {
         centered
         width={800}
         footer={[
-          <Button key="back" onClick={handleCancel}>
+          <button
+            className="cancel-custom-btn"
+            key="back"
+            onClick={handleCancel}
+          >
             Cancel
-          </Button>,
-          <Button key="submit" type="primary" onClick={handleSubmit}>
+          </button>,
+          <button
+            className="confitm-custom-btn-primary"
+            key="submit"
+            type="primary"
+            onClick={handleSubmit}
+          >
             Proceed to payment
-          </Button>,
+          </button>,
         ]}
       >
         <Divider />
@@ -240,16 +224,14 @@ const Reservation = () => {
           <div className="detail-item">
             <div className="detail-content">
               <label>Date and time:</label>
-              {fullReservation?.reservation?.dateTime}
-              {/* {new Date(fullReservation.reservation.date)} */}
+              {fullReservation?.reservation?.dateTime
+                ? format(
+                    new Date(fullReservation?.reservation?.dateTime),
+                    "dd/MM/yyyy HH:mm a"
+                  )
+                : ""}
             </div>
           </div>
-          {/* <div className="detail-item">
-            <div className="detail-content">
-              <label>Time:</label>
-              {fullReservation.reservation?.time}
-            </div>
-          </div> */}
           <div className="detail-item">
             <div className="detail-content">
               <label>Position:</label>
