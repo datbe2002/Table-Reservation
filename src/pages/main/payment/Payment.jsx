@@ -25,7 +25,7 @@ const Payment = () => {
   const dispatch = useDispatch();
   const handleCancel = () => {
     dispatch(resetFullreservation());
-    navigate("../");
+    navigate("/");
   };
   useEffect(() => {
     const fetchReservation = async () => {
@@ -90,10 +90,12 @@ const Payment = () => {
               <label className="label">Date:</label>
 
               <span className="value">
-                {format(
-                  new Date(fullReservation?.reservation?.dateTime),
-                  "dd/MM/yyyy HH:mm"
-                )}
+                {fullReservation?.reservation?.dateTime
+                  ? format(
+                      new Date(fullReservation?.reservation?.dateTime),
+                      "dd/MM/yyyy HH:mm a"
+                    )
+                  : ""}
               </span>
             </div>
             <div className="field">
@@ -123,7 +125,7 @@ const Payment = () => {
         <div className="payment-element">
           <Elements stripe={stripePromise} options={{ clientSecret }}>
             <PaymentForm
-              url={`${window.location.origin}/reservation/${fullReservation?.reservation._id}`}
+              url={`${window.location.origin}/reservation/${fullReservation?.reservation?._id}`}
               setOpen={setOpen}
             />
           </Elements>
