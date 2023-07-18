@@ -7,13 +7,14 @@ import { Form, Row } from "antd";
 import React, { useState } from "react";
 
 export const PaymentForm = (props) => {
-  let { url } = props;
-
+  let { url, setOpen } = props;
   const stripe = useStripe();
   const elements = useElements();
   const [isProcessing, setIsProcessing] = useState(false);
   const [msg, setMsg] = useState(null);
+
   const handleSubmit = async (e) => {
+    console.log(e);
     e.preventDefault();
     if (!stripe || !elements) {
       return;
@@ -24,11 +25,12 @@ export const PaymentForm = (props) => {
       confirmParams: {
         return_url: url,
       },
-
       redirect: "if_required",
     });
     if (error) {
       setMsg(error.message);
+    } else {
+      setOpen(true);
     }
 
     setIsProcessing(false);
@@ -36,11 +38,11 @@ export const PaymentForm = (props) => {
   return (
     <>
       <Form
-        className=""
+        className="payment-form"
         name="payment"
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 16 }}
-        onFinish={handleSubmit}
+        onSubmitCapture={(e) => handleSubmit(e)}
       >
         <PaymentElement />
         <Row justify="center">
@@ -48,7 +50,7 @@ export const PaymentForm = (props) => {
             {isProcessing ? "Processing" : "Pay now"}
           </button>
         </Row>
-        {msg ? <div className="payment-bottom">{msg}</div> : ""}
+        {msg ? <div className="payment-msg">{msg}</div> : ""}
       </Form>
     </>
   );
