@@ -15,7 +15,7 @@ import LoginAdmin from "../pages/auth/LoginForManager/loginManager";
 // import TableList from "../pages/main/reservation_form/Reservation";
 import Profile from "../pages/main/profile/Profile";
 import Reservation from "../pages/main/reservation_form/Reservation";
-import Payment from "../pages/main/payment/payment";
+// import Payment from "../pages/main/payment/payment";
 import ForgotPassword from "../pages/auth/login/ForgotPassword";
 import PrivateRouteManager from "./privateRouteManager";
 import ManagerPage from "../pages/admin/manager";
@@ -24,6 +24,7 @@ import ListReservation from "../pages/main/reservation_list/ListReservation";
 import DetailReservation from "../pages/main/reservation_list/DetailReservation";
 import History from "../pages/main/history_user/History";
 import { useSelector } from "react-redux";
+import Payment from "../pages/main/payment/Payment";
 
 export default function Router() {
   const userDTO = useSelector((state) => state.auth.userDTO);
@@ -54,7 +55,7 @@ export default function Router() {
         {
           path: "/pageManager",
           element: userDTO.role === "Admin" ? <ManagerPage /> : null,
-          
+
         },
         {
           path: "/listReservation",

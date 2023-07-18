@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Modal, Typography  } from "antd";
-import { Link } from "react-router-dom";
+import { Table, Button, Modal, Typography, Select } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { format } from "date-fns";
+import { updateStatusV2 } from "../../../redux/slice/reservationSlice";
+import { ToastContainer } from "react-toastify";
+import SelectComponent from "./SelectComponent";
 
 function ListReservation() {
   const [reservations, setReservations] = useState([]);
   const [selectedReservation, setSelectedReservation] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [selectedValue, setSelectedValue] = useState(null);
+  const loading = useSelector(state => state.reservation.loading)
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
           "http://localhost:8000/api/reservation"
         );
-        console.log(response.data); // In dữ liệu nhận được từ API vào console
 
         // Lấy phần "reservation" từ response và cập nhật state reservations
         setReservations(response.data.reservation);
@@ -26,10 +31,12 @@ function ListReservation() {
     fetchData();
   }, []);
 
-  const showDetailModal = (reservation) => {
-    setSelectedReservation(reservation);
-    setModalVisible(true);
+  const dispatch = useDispatch();
+
+  const handleChange = async (reservationId, e) => {
+    dispatch(updateStatusV2({ reservationId, e, setSelectedValue }))
   };
+
 
   const handleCancel = () => {
     // Xử lý logic khi nhấn nút "Cancel"
@@ -46,11 +53,31 @@ function ListReservation() {
       title: "User",
       dataIndex: ["user", "username"],
       key: "user",
+      sorter: (a, b) => a.user.username.length - b.user.username.length,
+      sortDirections: ['ascend', 'descend', 'ascend']
     },
     {
-      title: "Date",
-      dataIndex: "dateTime",
-      key: "date",
+      title: 'Date',
+      dataIndex: 'dateTime',
+      render: (day) => {
+        return (
+          <div>
+            {format((new Date(day)), 'dd/MM/yyyy HH:mm a')}
+          </div>
+        )
+      }
+    },
+    {
+      title: 'Created date',
+      dataIndex: 'createdAt',
+      render: (day) => {
+        return (
+          <div>
+            {format((new Date(day)), 'dd/MM/yyyy HH:mm a')}
+          </div>
+        )
+      }
+
     },
     {
       title: "Table",
@@ -59,46 +86,36 @@ function ListReservation() {
     },
 
     {
-      title: "Actions",
+      title: "Action",
+      key: "action",
+      render: (text, reservation) => {
+        // const reservationId = reservation._id;
+        // const currentValue = selectedValue || reservation.status;
+        // console.log(loading)
+        return (
+          <SelectComponent reservation={reservation} />
+        );
+      },
+    },
+    {
+      title: "View",
       key: "actions",
       render: (text, reservation) => (
         <div>
-           <Link to={`/reservation/detail/${reservation._id}`}>View Detail</Link>
+          <Link to={`/reservation/detail/${reservation._id}`}>View Detail</Link>
         </div>
       ),
     },
   ];
 
   return (
-    <div>
-      <h1>List Reservation</h1>
-      <Table dataSource={reservations} columns={columns} rowKey="_id" />
+    <div style={{ width: "80vw", height: "72vh" }}>
+      <h1 style={{ textAlign: 'center' }}>List Reservation</h1>
+      <Table dataSource={reservations} columns={columns} rowKey="_id" style={{
+        width: '100%'
+      }} />
 
-      <Modal
-        title="Reservation Detail"
-        open={modalVisible}
-        onCancel={handleCancel}
-        footer={[
-          <Button key="cancel" onClick={handleCancel}>
-            Cancel
-          </Button>,
-          <Button key="clear" type="primary" onClick={handleClear}>
-            Clear
-          </Button>,
-        ]}
-      >
-        {selectedReservation && (
-          <div>
-            <p>User: {selectedReservation.user.username}</p>
-            <p>Date: {selectedReservation.dateTime}</p>
-            <p>Position: {selectedReservation.position}</p>
-            <p>Status: {selectedReservation.status}</p>
-            <p>Note: {selectedReservation.note}</p>
-            <p>Table: {selectedReservation.table.name}</p>
-            <p>Price: {selectedReservation.price}</p>
-          </div>
-        )}
-      </Modal>
+      <ToastContainer />
     </div>
   );
 }

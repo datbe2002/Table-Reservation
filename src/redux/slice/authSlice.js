@@ -33,7 +33,15 @@ export const loginManager = createAsyncThunk(
       const loginDataManager = param.loginDataManager;
       const navigate = param.navigate;
       const response = await axiosCus.post("manager/login", loginDataManager);
-      navigate("/pageManager");
+      if (response.data.manager.role === "Admin") {
+        thunkAPI.dispatch(setManager(true))
+        navigate("/pageManager");
+      } else if (response.data.manager.role === "Manager") {
+        thunkAPI.dispatch(setManager(true))
+        navigate("/listReservation");
+      } else {
+        throw new Error("Invalid role");
+      }
       return response.data;
     } catch (error) {
       toast.error("Invalid email or password");
@@ -147,6 +155,7 @@ const initialState = {
   token: null,
   loading: false,
   error: "",
+  manager: false,
 };
 
 export const authSlice = createSlice({
@@ -158,6 +167,9 @@ export const authSlice = createSlice({
       state.token = null;
       state.msg = null;
     },
+    setManager: (state, action) => {
+      state.manager = action.payload
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -255,7 +267,7 @@ export const authSlice = createSlice({
 });
 const {
   reducer: authReducer,
-  actions: { logoutUser },
+  actions: { logoutUser, setManager },
 } = authSlice;
 
-export { logoutUser, authReducer as default };
+export { logoutUser, setManager, authReducer as default };

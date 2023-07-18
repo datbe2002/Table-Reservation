@@ -50,6 +50,28 @@ export const getReservationByUser = createAsyncThunk(
   }
 );
 
+export const updateStatusV2 = createAsyncThunk(
+  "reservation/updatev2",
+  async (params, thunkAPI) => {
+    try {
+      const { reservationId, e, setSelectedValue } = params;
+      console.log(reservationId)
+      console.log(e)
+      console.log(setSelectedValue)
+      const response = await axiosCus.put(`reservation/${reservationId}/updateStatus`, {
+        status: e
+      });
+      setSelectedValue(e)
+      return response.data;
+
+    } catch (err) {
+      toast.error(err.response.data.message);
+      return thunkAPI.rejectWithValue({ error: true });
+    }
+  }
+);
+
+
 const initialState = {
   reservationDTO: {},
   time: {},
@@ -98,6 +120,18 @@ export const reservationSlice = createSlice({
       .addCase(getReservationByUser.fulfilled, (state, action) => {
         state.loading = false;
         state.myReservation = action.payload.allReservations;
+        state.message = action.payload.message;
+        state.error = null;
+      })
+      .addCase(updateStatusV2.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateStatusV2.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.err;
+      })
+      .addCase(updateStatusV2.fulfilled, (state, action) => {
+        state.loading = false;
         state.message = action.payload.message;
         state.error = null;
       });
