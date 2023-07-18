@@ -6,7 +6,7 @@ import { logout, logoutUser } from "../../redux/slice/authSlice";
 
 const Navigation = () => {
   const { token } = useSelector((state) => state.auth);
-
+  const { role } = useSelector((state) => state.auth.userDTO);
   let element = [
     {
       path: "/reservation",
@@ -36,25 +36,26 @@ const Navigation = () => {
 
   return (
     <div className="navigation">
-      {token ? (
-        element.map((item, index) => (
-          <Link
-            key={index}
-            to={item.name === "Profile" ? item.path : item.path}
-            className={active === item.name ? "active" : ""}
-            onClick={() => {
-              item.name === "Logout" ? handleLogout() : setActive(item.name);
-            }}
-          >
-            {item.name}
-          </Link>
-        ))
-      ) : (
-        <Link to={'/login'}>
-          Login
+      {token && !role
+        ? element.map((item, index) => (
+            <Link
+              key={index}
+              to={item.name === "Profile" ? item.path : item.path}
+              className={active === item.name ? "active" : ""}
+              onClick={() => {
+                item.name === "Logout" ? handleLogout() : setActive(item.name);
+              }}
+            >
+              {item.name}
+            </Link>
+          ))
+        : null}
+      {role && token ? (
+        <Link to="/" onClick={handleLogout}>
+          Logout
         </Link>
-      )}
-
+      ) : null}
+      {!role && !token ? <Link to="/login">Login</Link> : null}
     </div>
   );
 };
